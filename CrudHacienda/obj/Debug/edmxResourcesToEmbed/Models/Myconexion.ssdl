@@ -95,12 +95,22 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NombreUsuario" Type="varchar" MaxLength="22" Nullable="false" />
+    <Property Name="Contrasena" Type="varchar" MaxLength="100" Nullable="false" />
+    <Property Name="TipoUsuario" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="CodEmpleado" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="Usuarios">
     <Key>
       <PropertyRef Name="Usuario" />
     </Key>
     <Property Name="Usuario" Type="varchar" MaxLength="12" Nullable="false" />
-    <Property Name="Clave" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="Clave" Type="varchar" MaxLength="255" />
     <Property Name="Permisos" Type="varchar" MaxLength="16" Nullable="false" />
     <Property Name="CodEmpleado" Type="int" />
   </EntityType>
@@ -185,6 +195,7 @@
     <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Puestos" EntityType="Self.Puestos" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__DetallePr__IdPro__403A8C7D" Association="Self.FK__DetallePr__IdPro__403A8C7D">
       <End Role="Produccion" EntitySet="Produccion" />

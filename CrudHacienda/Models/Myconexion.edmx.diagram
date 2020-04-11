@@ -20,6 +20,7 @@
         <AssociationConnector Association="HaciendaModel.FK_EmpEstado" ManuallyRouted="false" />
         <AssociationConnector Association="HaciendaModel.FK__Produccio__IdPro__3B75D760" ManuallyRouted="false" />
         <AssociationConnector Association="HaciendaModel.FK__Produccio__Prove__3A81B327" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="HaciendaModel.Usuario" Width="1.5" PointX="5.375" PointY="8.75" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

@@ -180,6 +180,9 @@
     <Compile Include="Models\sysdiagrams.cs">
       <DependentUpon>Myconexion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\Usuario.cs">
+      <DependentUpon>Myconexion.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\Usuarios.cs">
       <DependentUpon>Myconexion.tt</DependentUpon>
     </Compile>

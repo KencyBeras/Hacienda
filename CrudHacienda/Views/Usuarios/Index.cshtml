@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     List<SelectListItem> listaEmpleados = (List<SelectListItem>)ViewBag.ListaEmpleados;
 }
 
@@ -50,24 +51,29 @@
             {
                 @Html.Hidden("Titulo")
                 //Variable oculto
-                <div class="modal-body">
-                    <div>
-                        @Html.Label("Id Usuario")
-                        @Html.TextBox("IdUsuario", null, new { @class = "form-control" })
-                    </div>
-                    <div>
-                        @Html.Label("Clave")
-                        @Html.Password("Pass", null, new { @class = "form-control" })
-                    </div>
-                    <div>
-                        @Html.Label("Permisos")
-                        @Html.TextBox("Permisos", null, new { @class = "form-control" })
-                    </div>
-                    <div>
-                        @Html.Label("Empleado")
-                        @Html.DropDownList("CodigoEmpleado", listaEmpleados, new { @class = "form-control" })
-                    </div>
+            <div class="modal-body">
+                @*<div>
+                    @Html.Label("ID")
+                    @Html.TextBox("IdUsuario", null, new { @class = "form-control" })
+                </div>*@
+
+                <div>
+                    @Html.Label("Nombre Usuario")
+                    @Html.TextBox("NombreUsuario", null, new { @class = "form-control" })
                 </div>
+                <div>
+                    @Html.Label("Contrasena")
+                    @Html.Password("Contrasena", null, new { @class = "form-control" })
+                </div>
+                <div>
+                    @Html.Label("TipoUsuario")
+                    @Html.TextBox("TipoUsuario", null, new { @class = "form-control" })
+                </div>
+                <div>
+                    @Html.Label("Empleado")
+                    @Html.DropDownList("CodigoEmpleado", listaEmpleados, new { @class = "form-control" })
+                </div>
+            </div>
 
                 <div class="modal-footer">
                     <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -85,14 +91,32 @@
         $("#frmfiltro").trigger("submit");
     }
 
-    function Agregar() {
-        document.getElementById("Titulo").value = -1;
-
+    function Limpiar() {
+        document.getElementById("NombreUsuario").value = "";
+        document.getElementById("Contrasena").value = "";
+        document.getElementById("TipoUsuario").value = "";
+        document.getElementById("CodigoEmpleado").value = "";
+        document.getElementById("error").innerHTML= "";
     }
-    function Editar(id) {
-        document.getElementById("Titulo").value = id;
-        alert(id);
 
+    function Agregar() {
+        Limpiar();
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("Titulo").value = -1;
+    }
+
+    function Editar(id) {
+        Limpiar();
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("Titulo").value = id;
+
+        $.get("Usuarios/RecuperarUsuarios/?Titulo=" + id, function (data)
+        {
+            document.getElementById("NombreUsuario").value = data.NombreUsuario;
+            document.getElementById("Contrasena").value = data.Contrasena;
+            document.getElementById("TipoUsuario").value = data.TipoUsuario;
+            document.getElementById("CodigoEmpleado").value = data.CodigoEmpleado;
+        })
     }
 
     function AgregarUsuarios(resultado) {

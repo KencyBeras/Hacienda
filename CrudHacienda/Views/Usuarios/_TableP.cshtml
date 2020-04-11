@@ -3,10 +3,13 @@
 <table class="table table-striped">
     <tr>
         <th>
-            <span>Nombre Usuario</span>
+            @Html.DisplayNameFor(model => model.IdUsuario)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Permisos)
+            @Html.DisplayNameFor(model => model.NombreUsuario)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TipoUsuario)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CodigoEmpleado)
@@ -18,22 +21,25 @@
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @item.IdUsuario
-            </td>
-            <td>
-                @item.Permisos
-            </td>
-            <td>
-                @item.CodigoEmpleado
-            </td>
-            <td>
-                @*Html.ActionLink(" ", "EditarUsuarios", "Usuarios", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-info btn-xs glyphicon glyphicon-edit" })*@
-                @Html.ActionLink(" ", "EliminarUsuarios", "Usuarios", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-trash" })
-                <button type="button" onclick="Editar(@item.IdUsuario)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal"> </button>
-            </td>
-        </tr>
+    <tr>
+        <td>
+            @item.IdUsuario
+        </td>
+        <td>
+            @item.NombreUsuario
+        </td>
+        <td>
+            @item.TipoUsuario
+        </td>
+        <td>
+            @item.CodigoEmpleado
+        </td>
+        <td>
+            @*Html.ActionLink(" ", "EditarUsuarios", "Usuarios", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-info btn-xs glyphicon glyphicon-edit" })*@
+            @Html.ActionLink(" ", "EliminarUsuarios", "Usuarios", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-trash" })
+            <button type="button" onclick="Editar(@item.IdUsuario)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal"> </button>
+        </td>
+    </tr>
     }
 
 </table>

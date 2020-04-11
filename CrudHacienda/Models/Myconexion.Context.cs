@@ -34,5 +34,6 @@ namespace CrudHacienda.Models
         public virtual DbSet<Puestos> Puestos { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<Usuario> Usuario { get; set; }
     }
 }
