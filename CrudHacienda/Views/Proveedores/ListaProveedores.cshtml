@@ -1,0 +1,180 @@
+﻿@model List<CrudHacienda.Models.ProveedoresCLS>
+
+@{
+    ViewBag.Title = "ListaProveedores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Listado Proveedores</h2>
+
+<div class="row form-group">
+    <!-- Button trigger modal -->
+    <div class=" col-xs-8 col-lg-11 ">
+        <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Nuevo Proveedor</button>
+    </div>
+    <div class="col-xs-4 col-lg-1">
+        @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
+    </div>
+</div>
+
+<!--Lista de los productos que tenemos actualmente activos-->
+@using (Ajax.BeginForm("Filtroproveedores", "Proveedores", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "DivPaginap",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmsearchp" }))
+{
+    <div class=" col-md-offset-8">
+        @Html.TextBox("NumDocumento", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
+    </div>
+    <br />
+    <div id="DivPaginap" class="">
+        @Html.Partial("_TablaProveedores", Model)
+    </div>
+}
+
+<!-- Modal: Esta ventana nos abrra un formulario flotante para agregar -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Proveedor</h5>
+            </div>
+
+            @using (Ajax.BeginForm("AgregarProveedores", "Proveedores", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "DivUser",
+                InsertionMode = InsertionMode.Replace,
+                OnSuccess = "AgregarProveedores" //Funcion pendiente de crear
+            }))
+            {
+                @Html.Hidden("Titulo")
+                <!--Modal Body-->
+                <div class="modal-body">
+
+                    @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+                    <div class="form-group">
+                        <select class="form-control" id="TipoProveedor" name="TipoProveedor">
+                            <option value="">Tipo Proveedor(Seleccionar...)</option>
+                            <option value="Entidad">Entidad</option>
+                            <option value="Persona">Persona</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model[0].TipoProveedor, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="NombreProveedor" name="NombreProveedor" placeholder="Nombre">
+                        @Html.ValidationMessageFor(model => model[0].NombreProveedor, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="SegundoNombre" name="SegundoNombre" placeholder="Segundo Nombre">
+                        @Html.ValidationMessageFor(model => model[0].SegundoNombre, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" id="TipoDocumento" name="TipoDocumento">
+                            <option value="">Tipo Documento(Seleccionar...)</option>
+                            <option value="Cedula">Cedula</option>
+                            <option value="RNC">RNC</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model[0].TipoDocumento, "", new { @class = "text-danger" })
+                        @if (Model != null && Model[0].ProvErrors != null)
+                        {
+                            @Html.Label(Model[0].ProvErrors, new { @class = "text-danger" })
+
+                        }
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="NumDocumento" name="NumDocumento" placeholder="Numero de documento">
+                        @Html.ValidationMessageFor(model => model[0].NumDocumento, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="tel" class="form-control" id="Celular" name="Celular" placeholder="# Celular Ej. 1809110000">
+                        @Html.ValidationMessageFor(model => model[0].Celular, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="tel" class="form-control" id="Telefono" name="Telefono" placeholder="# Telefono Ej. 1809110000">
+                        @Html.ValidationMessageFor(model => model[0].Telefono, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="FechaCreacion" name="FechaCreacion" placeholder="Fecha">
+                        @Html.ValidationMessageFor(model => model[0].FechaCreacion, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Email Ej. alguien@ejemplo.com">
+                        @Html.ValidationMessageFor(model => model[0].Email, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Direccion" name="Direccion" placeholder="Direccion: Ej. No.Domicilio, Sector/Barrio, Municipio, Provincia/Ciudad, Pais.">
+                        @Html.ValidationMessageFor(model => model[0].Direccion, "", new { @class = "text-danger" })
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" id="Estado" name="Estado">
+                            <option value="">Estado (Seleccionar...)</option>
+                            <option value=1>Activo</option>
+                            <option value=0>Inactivo</option>
+                        </select>
+                        @Html.ValidationMessageFor(model => model[0].Estado, "", new { @class = "text-danger" })
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            }
+        </div>
+    </div>
+</div>
+<!--End Modal-->
+
+<!--Este script valida que realmente deseamos eliminar este registro-->
+<script>
+    var frmsearchp = document.getElementById("frmsearchp");
+    var NumDocumento = document.getElementById("NumDocumento");
+    NumDocumento.onkeyup = function ()
+    {
+        $("#frmsearchp").trigger("submit");
+    }
+
+    function Agregar() {
+        document.getElementById("Titulo").value = "1";
+    } 
+
+    function AgregarProveedores(res/*cualquier nombre*/) {
+        if (res == 1) {
+            document.getElementById("btnclose").click();
+            alert("Se guardaron los datos correctamente");
+            $("#frmsearchp").trigger("submit");
+        }
+        else
+        {
+            alert("Ocurrio un error durante la insercion");
+        }
+
+    }
+
+    function BorrarProveedor() {
+        if (confirm("Realmente desea eliminar el registro?") == 1) {
+
+            //alert("Se elimino el registro satisfactoriamente.");
+        }
+        else {
+            event.preventDefault();
+        }
+    }
+
+</script>

@@ -1,0 +1,214 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="HaciendaModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="DetalleProduccion">
+    <Key>
+      <PropertyRef Name="IdDetalleProduccion" />
+    </Key>
+    <Property Name="IdDetalleProduccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdProduccion" Type="int" />
+    <Property Name="Cantidad" Type="float" Nullable="false" />
+    <Property Name="PrecioVenta" Type="float" Nullable="false" />
+    <Property Name="FechaProduccion" Type="date" />
+    <Property Name="TotalVenta" Type="float" StoreGeneratedPattern="Computed" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Empleados">
+    <Key>
+      <PropertyRef Name="IdEmpleado" />
+    </Key>
+    <Property Name="IdEmpleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Cedula" Type="varchar" MaxLength="11" Nullable="false" />
+    <Property Name="Nombre" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="Apellidos" Type="varchar" MaxLength="60" Nullable="false" />
+    <Property Name="Sexo" Type="varchar" MaxLength="1" Nullable="false" />
+    <Property Name="Telefono" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="Email" Type="varchar" MaxLength="45" />
+    <Property Name="Direccion" Type="varchar" MaxLength="255" />
+    <Property Name="Puesto" Type="int" Nullable="false" />
+    <Property Name="FechaEntrada" Type="date" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="date" />
+    <Property Name="Estado" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="EstadoEmpleado">
+    <Key>
+      <PropertyRef Name="IdStausEmpleado" />
+    </Key>
+    <Property Name="IdStausEmpleado" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Estado" Type="varchar" MaxLength="36" Nullable="false" />
+    <Property Name="Detalles" Type="varchar" MaxLength="82" Nullable="false" />
+  </EntityType>
+  <EntityType Name="MisProductos">
+    <Key>
+      <PropertyRef Name="IdProducto" />
+    </Key>
+    <Property Name="IdProducto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Producto" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="122" />
+    <Property Name="Estado" Type="int" Nullable="false" />
+    <Property Name="FechaCreacion" Type="date" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="date" />
+  </EntityType>
+  <EntityType Name="Produccion">
+    <Key>
+      <PropertyRef Name="IdProduccion" />
+    </Key>
+    <Property Name="IdProduccion" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IdProducto" Type="int" Nullable="false" />
+    <Property Name="Unidad" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="Turno" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="EstadoFacturacion" Type="int" Nullable="false" />
+    <Property Name="Proveedor" Type="int" />
+    <Property Name="Despachado" Type="int" />
+  </EntityType>
+  <EntityType Name="Proveedores">
+    <Key>
+      <PropertyRef Name="IdProveedor" />
+    </Key>
+    <Property Name="IdProveedor" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="TipoProveedor" Type="varchar" MaxLength="44" Nullable="false" />
+    <Property Name="TipoDocumento" Type="varchar" MaxLength="10" Nullable="false" />
+    <Property Name="NumDocumento" Type="varchar" MaxLength="18" />
+    <Property Name="NombreProveedor" Type="varchar" MaxLength="34" Nullable="false" />
+    <Property Name="SegundoNombre" Type="varchar" MaxLength="60" />
+    <Property Name="Celular" Type="varchar" MaxLength="13" Nullable="false" />
+    <Property Name="Telefono" Type="varchar" MaxLength="13" />
+    <Property Name="Email" Type="varchar" MaxLength="46" Nullable="false" />
+    <Property Name="Direccion" Type="varchar" MaxLength="128" Nullable="false" />
+    <Property Name="FechaCreacion" Type="date" Nullable="false" />
+    <Property Name="FechaActualizacion" Type="date" Nullable="false" />
+    <Property Name="Estado" Type="int" Nullable="false" />
+  </EntityType>
+  <EntityType Name="Puestos">
+    <Key>
+      <PropertyRef Name="IdPuesto" />
+    </Key>
+    <Property Name="IdPuesto" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="NomPuesto" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="132" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="nvarchar" MaxLength="128" Nullable="false" />
+    <Property Name="principal_id" Type="int" Nullable="false" />
+    <Property Name="diagram_id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="version" Type="int" />
+    <Property Name="definition" Type="varbinary(max)" />
+  </EntityType>
+  <EntityType Name="Usuarios">
+    <Key>
+      <PropertyRef Name="Usuario" />
+    </Key>
+    <Property Name="Usuario" Type="varchar" MaxLength="12" Nullable="false" />
+    <Property Name="Clave" Type="varchar" MaxLength="32" Nullable="false" />
+    <Property Name="Permisos" Type="varchar" MaxLength="16" Nullable="false" />
+    <Property Name="CodEmpleado" Type="int" />
+  </EntityType>
+  <Association Name="FK__DetallePr__IdPro__403A8C7D">
+    <End Role="Produccion" Type="Self.Produccion" Multiplicity="0..1" />
+    <End Role="DetalleProduccion" Type="Self.DetalleProduccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Produccion">
+        <PropertyRef Name="IdProduccion" />
+      </Principal>
+      <Dependent Role="DetalleProduccion">
+        <PropertyRef Name="IdProduccion" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Empleados__Puest__2E1BDC42">
+    <End Role="Puestos" Type="Self.Puestos" Multiplicity="1" />
+    <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Puestos">
+        <PropertyRef Name="IdPuesto" />
+      </Principal>
+      <Dependent Role="Empleados">
+        <PropertyRef Name="Puesto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Produccio__Despa__3C69FB99">
+    <End Role="Empleados" Type="Self.Empleados" Multiplicity="0..1" />
+    <End Role="Produccion" Type="Self.Produccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Empleados">
+        <PropertyRef Name="IdEmpleado" />
+      </Principal>
+      <Dependent Role="Produccion">
+        <PropertyRef Name="Despachado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Produccio__IdPro__3B75D760">
+    <End Role="MisProductos" Type="Self.MisProductos" Multiplicity="1" />
+    <End Role="Produccion" Type="Self.Produccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MisProductos">
+        <PropertyRef Name="IdProducto" />
+      </Principal>
+      <Dependent Role="Produccion">
+        <PropertyRef Name="IdProducto" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Produccio__Prove__3A81B327">
+    <End Role="Proveedores" Type="Self.Proveedores" Multiplicity="0..1" />
+    <End Role="Produccion" Type="Self.Produccion" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Proveedores">
+        <PropertyRef Name="IdProveedor" />
+      </Principal>
+      <Dependent Role="Produccion">
+        <PropertyRef Name="Proveedor" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_EmpEstado">
+    <End Role="EstadoEmpleado" Type="Self.EstadoEmpleado" Multiplicity="1" />
+    <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="EstadoEmpleado">
+        <PropertyRef Name="IdStausEmpleado" />
+      </Principal>
+      <Dependent Role="Empleados">
+        <PropertyRef Name="Estado" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="HaciendaModelStoreContainer">
+    <EntitySet Name="DetalleProduccion" EntityType="Self.DetalleProduccion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="EstadoEmpleado" EntityType="Self.EstadoEmpleado" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="MisProductos" EntityType="Self.MisProductos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Produccion" EntityType="Self.Produccion" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Puestos" EntityType="Self.Puestos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__DetallePr__IdPro__403A8C7D" Association="Self.FK__DetallePr__IdPro__403A8C7D">
+      <End Role="Produccion" EntitySet="Produccion" />
+      <End Role="DetalleProduccion" EntitySet="DetalleProduccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Empleados__Puest__2E1BDC42" Association="Self.FK__Empleados__Puest__2E1BDC42">
+      <End Role="Puestos" EntitySet="Puestos" />
+      <End Role="Empleados" EntitySet="Empleados" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Produccio__Despa__3C69FB99" Association="Self.FK__Produccio__Despa__3C69FB99">
+      <End Role="Empleados" EntitySet="Empleados" />
+      <End Role="Produccion" EntitySet="Produccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Produccio__IdPro__3B75D760" Association="Self.FK__Produccio__IdPro__3B75D760">
+      <End Role="MisProductos" EntitySet="MisProductos" />
+      <End Role="Produccion" EntitySet="Produccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Produccio__Prove__3A81B327" Association="Self.FK__Produccio__Prove__3A81B327">
+      <End Role="Proveedores" EntitySet="Proveedores" />
+      <End Role="Produccion" EntitySet="Produccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK_EmpEstado" Association="Self.FK_EmpEstado">
+      <End Role="EstadoEmpleado" EntitySet="EstadoEmpleado" />
+      <End Role="Empleados" EntitySet="Empleados" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

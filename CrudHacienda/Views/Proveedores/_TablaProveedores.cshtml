@@ -1,0 +1,64 @@
+﻿@model List<CrudHacienda.Models.ProveedoresCLS>
+
+<div class="form-group">
+    <br />
+    <table class="table table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model[0].IdProveedor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].TipoProveedor)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].NumDocumento)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].NombreCompleto)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Celular)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Telefono)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model[0].Email)
+            </th>
+            <th>
+                <span>Accion</span>
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.IdProveedor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.TipoProveedor)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NumDocumento)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.NombreCompleto)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Celular)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Telefono)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.ActionLink(" ", "EditarProveedores", "Proveedores", new { id = @item.IdProveedor }, new { @class = "btn btn-info btn-xs glyphicon glyphicon-edit" })
+                    @Html.ActionLink(" ", "EliminarProveedor", "Proveedores", new { id = item.IdProveedor }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-trash", @onclick = "BorrarProveedor()" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>

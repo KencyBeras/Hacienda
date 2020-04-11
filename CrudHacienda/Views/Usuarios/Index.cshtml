@@ -1,0 +1,109 @@
+﻿@model IEnumerable<CrudHacienda.Models.UsuariosCLS>
+
+@{
+    ViewBag.Title = "Index";
+    List<SelectListItem> listaEmpleados = (List<SelectListItem>)ViewBag.ListaEmpleados;
+}
+
+<h2>Usuarios del sitema</h2>
+<hr />
+<!-- Button trigger modal -->
+<div class="form-group">
+    <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+        Nuevo Usuario
+    </button>
+</div>
+@using (Ajax.BeginForm("FiltroUsuarios", "", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "DivUser",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmfiltro" }))
+{
+    <div class="form-group">
+        <div class=" col-md-offset-8">
+            @Html.TextBox("Usuario", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
+        </div>
+    </div>
+    <br />
+    <div class="form-horizontal">
+        <div id="DivUser">
+            @Html.Partial("_TableP", Model)
+        </div>
+    </div>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Usuarios</h5>
+            </div>
+            @using (Ajax.BeginForm("AgregarUsuarios", "Usuarios", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "error",
+                InsertionMode = InsertionMode.Replace,
+                OnSuccess = "AgregarUsuarios" //Funcion pendiente de crear
+            }))
+            {
+                @Html.Hidden("Titulo")
+                //Variable oculto
+                <div class="modal-body">
+                    <div>
+                        @Html.Label("Id Usuario")
+                        @Html.TextBox("IdUsuario", null, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Clave")
+                        @Html.Password("Pass", null, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Permisos")
+                        @Html.TextBox("Permisos", null, new { @class = "form-control" })
+                    </div>
+                    <div>
+                        @Html.Label("Empleado")
+                        @Html.DropDownList("CodigoEmpleado", listaEmpleados, new { @class = "form-control" })
+                    </div>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            }
+            <div id="error"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var Usuario = document.getElementById("Usuario");
+    Usuario.onkeyup = function () {
+        $("#frmfiltro").trigger("submit");
+    }
+
+    function Agregar() {
+        document.getElementById("Titulo").value = -1;
+
+    }
+    function Editar(id) {
+        document.getElementById("Titulo").value = id;
+        alert(id);
+
+    }
+
+    function AgregarUsuarios(resultado) {
+        if (resultado == "1") {
+            $("#frmfiltro").trigger("submit");
+            document.getElementById("btnclose").click();
+            alert("Se agrego el usuario correctamente");
+        } else {
+            alert("Verifique que los datos esten correctos");
+        }
+    }
+</script>
+
+

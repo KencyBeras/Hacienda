@@ -1,0 +1,63 @@
+﻿@model IEnumerable<CrudHacienda.Models.EmpleadosCLS>
+
+<table class="table">
+    <tr>
+        <th>
+            <span>Id</span>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Cedula)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NombreCompleto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Telefono)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th>
+            <span>Puesto</span>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Estado)
+        </th>
+
+        <th>
+            Acciones
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdEmpleado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Cedula)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NombreCompleto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Telefono)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NPuesto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Nestado)
+            </td>
+            <td>
+                @Html.ActionLink(" ", "EditarProductos", "Productos", new { id = @item.IdEmpleado }, new { @class = "btn btn-info btn-xs glyphicon glyphicon-edit" })
+                @Html.ActionLink(" ", "EliminarProductos", "Productos", new { id = @item.IdEmpleado }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-trash", @onclick = "BorrarProducto()" })
+            </td>
+        </tr>
+    }
+
+</table>
