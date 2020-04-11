@@ -87,7 +87,7 @@ namespace CrudHacienda.Controllers
 
         public string AgregarUsuarios(UsuariosCLS ucls,int Titulo)
         {
-            string respuesta = "1";
+            string respuesta = "";
             if (!ModelState.IsValid)
             {
                 var query = (from state in ModelState.Values

@@ -77,3 +77,4 @@ C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Release\CrudHaci
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Release\CrudHacienda.csproj.CopyComplete
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Release\CrudHacienda.dll
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Release\CrudHacienda.pdb
+C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Release\CrudHacienda.csprojAssemblyReference.cache
