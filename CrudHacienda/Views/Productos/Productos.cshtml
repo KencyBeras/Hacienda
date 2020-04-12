@@ -7,8 +7,8 @@
 
 <h2>Mis Productos</h2>
 
+<!-- Button trigger modal -->
 <div class="row form-group">
-    <!-- Button trigger modal -->
     <div class=" col-xs-8 col-lg-11 ">
         <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Nuevo Producto</button>
     </div>
@@ -17,23 +17,26 @@
     </div>
 </div>
 
-<!--Lista de los productos que tenemos actualmente activos-->
+<!---------------------===================================-------------------->
 @using (Ajax.BeginForm("Fproductos", "", new AjaxOptions
 {
     HttpMethod = "POST",
     UpdateTargetId = "DivPagina",
     InsertionMode = InsertionMode.Replace
-
 }, new { @id = "frmsearch" }))
 {
-    <div class=" col-md-offset-8">
-        @Html.TextBox("Producto", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
+    <div>
+        <div class=" col-md-offset-8">
+            @Html.TextBox("Producto", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
+            @*Este Texbos es el que nos permite realizar las busquedas especificas de usuarios(Filtros)*@
+        </div>
     </div>
     <br />
-    <div id="DivPagina" class="">
-        @Html.Partial("_TablaProductos", Model)
+    <div class="form-horizontal">
+        <div id="DivPagina" class="">
+            @Html.Partial("_TablaProductos", Model)
+        </div>
     </div>
-
 }
 
 <!-- Modal: Esta ventana nos abrra un formulario flotante para agregar -->
@@ -46,9 +49,9 @@
             @using (Ajax.BeginForm("AgregarProductos", "Productos", null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                UpdateTargetId = "DivUser",
+                UpdateTargetId = "error",
                 InsertionMode = InsertionMode.Replace,
-                OnSuccess = "AgregarProductos" //Funcion pendiente de crear
+                OnSuccess = "AgregarProductos"//La accion que va a ir la informacion que enviemos
             }))
             {
                 @Html.Hidden("Titulo")
@@ -70,7 +73,7 @@
                     </div>
 
                     <div class="form-group">
-                        @Html.TextBox("Fecha Creacion", null, new { @class = "form-control", placeholder = "Fecha" })
+                        @Html.TextBox("FechaCreacion", null, new { @class = "form-control", placeholder = "Fecha" })
                     </div>
                 </div>
 
@@ -79,6 +82,7 @@
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </div>
             }
+            <div id="error"></div><!--En este div saldran los errores que son atrapados en el try-->
         </div>
     </div>
 </div>
@@ -95,27 +99,51 @@
         }
     }
 
-    var frmsearch = document.getElementById("frmsearch");
+    //var frmsearch = document.getElementById("frmsearch");
     var Producto = document.getElementById("Producto");
     Producto.onkeyup = function () {
         $("#frmsearch").trigger("submit");
     }
 
+    function Limpiar() {
+        document.getElementById("Producto").value = "";
+        document.getElementById("Descripcion").value = "";
+        document.getElementById("Estado").value = "";
+        document.getElementById("FechaCreacion").value = "";
+        document.getElementById("error").innerHTML = "";
+        //Funcion liempieza de los registros anteriores en el Modal
+    }
 
     function Agregar() {
-        document.getElementById("Titulo").value = "1";
+        //From btn Agregar
+        Limpiar();
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("Titulo").value = -1;
     }
 
     function AgregarProductos(res) {
-        if (res == 1) {
+        if (res == "1") {
+            $("#frmsearch").trigger("submit");
             document.getElementById("btnclose").click();
             alert("Se guardaron los datos correctamente");
-            $("#frmsearch").trigger("submit");
         }
         else {
-            alert("Ocurrio un erro durante la insercion");
+            alert("Ha ocurrido un error, verifique que los datos esten correctos...");
         }
 
+    }
+
+    function Editar(id) {
+        Limpiar();
+        document.getElementById("error").innerHTML = "";
+        document.getElementById("Titulo").value = id;
+        /*-----------------------------------------*/
+        $.get("Productos/RecuperarProductos/?Titulo=" + id, function (data) {
+            document.getElementById("Producto").value = data.Producto;
+            document.getElementById("Descripcion").value = data.Descripcion;
+            document.getElementById("Estado").value = data.Estado;
+            document.getElementById("FechaCreacion").value = data.FechaCreacion;
+        })
     }
 </script>
 

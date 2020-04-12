@@ -11,7 +11,8 @@ namespace CrudHacienda.Controllers
 {
     public class UsuariosController : Controller
     {
-        /*Metodo que lista los empleados existentes en mi db*/
+        /*Metodo que lista los empleados existentes en mi db,Con este metodo se crea 
+        el select en tablas relacionadas para la insercion de los datos*/
         public void ListarEmpleados()
         {
             List<SelectListItem> Lista;
@@ -20,18 +21,17 @@ namespace CrudHacienda.Controllers
                 Lista = (from Emp in db.Empleados
                          select new SelectListItem
                          {
-                             Text = Emp.Nombre + " " + Emp.Apellidos,
-                             Value = Emp.IdEmpleado.ToString()
+                             Text = Emp.Nombre + " " + Emp.Apellidos,//La propiedad Text es loq ue el usuario vera en el Texbox
+                             Value = Emp.IdEmpleado.ToString()//Value es el valor interno que tendra el Texbox, siempre deberia ser el PrimaryKey
 
                          }).ToList();
                 Lista.Insert(0, new SelectListItem { Text = "Empleado --Seleccionar--", Value = "" });
-                ViewBag.ListaEmpleados= Lista;
-
+                /*Esta opcion crea un primer registro sin valor el cual se mostrara por defecto en el Texbox*/
+                ViewBag.ListaEmpleados = Lista;
             }
-
         }
 
-        // GET: Usuarios
+        //(Index) al momenot de iniacira la App de esta forma aparecera usuarios
         public ActionResult Index()
         {
             ListarEmpleados();
@@ -51,7 +51,7 @@ namespace CrudHacienda.Controllers
 
                 return View(ListaUsuarios);
         }
-
+        /*Accion que hace un filtro de los usuarios de acuerdo a los parametros preestablecidos*/
         public ActionResult FiltroUsuarios(string Usuario)
         {
             List<UsuariosCLS> ListaUsuarios = new List<UsuariosCLS>();
@@ -87,7 +87,8 @@ namespace CrudHacienda.Controllers
 
 
         }
-        /*Agregar usuarios*/
+
+        /*Accoin Agregar usuarios*/
         public string AgregarUsuarios(UsuariosCLS ucls,int Titulo)
         {
             string respuesta = "";
@@ -113,7 +114,7 @@ namespace CrudHacienda.Controllers
                     using (var db = new MyonexionEntities())
                     {
                         if (Titulo.Equals(-1))
-                        {
+                        {//If para la insercion de datos
                             Usuario user = new Usuario();
                             user.IdUsuario = ucls.IdUsuario;
                             user.NombreUsuario = ucls.NombreUsuario;
@@ -132,7 +133,7 @@ namespace CrudHacienda.Controllers
                             
                         }
                         if (Titulo >= 0)
-                        {
+                        {//if para la editar datos
                             Usuario user = db.Usuario.Where(p => p.IdUsuario == Titulo).First();
                             user.NombreUsuario = ucls.NombreUsuario;
                             /*Cifrar clave*/
@@ -160,6 +161,7 @@ namespace CrudHacienda.Controllers
             return respuesta;
         }
 
+        /*Metodo que recupera los datos exixtentes de acuerdo al registro seleccionado*/
         public JsonResult RecuperarUsuarios(int Titulo)
         {
             UsuariosCLS ucls = new UsuariosCLS();
@@ -175,6 +177,5 @@ namespace CrudHacienda.Controllers
 
             return Json(ucls,JsonRequestBehavior.AllowGet);
         }
-
     }
 }

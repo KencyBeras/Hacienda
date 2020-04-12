@@ -17,6 +17,7 @@ namespace CrudHacienda.Models
         public string NombreUsuario { get; set; }
         /*-----------*/
         [Required]
+        [StringLength(100, ErrorMessage ="El numero maximo de caracteres aceptados es: 100")]
         [Display(Name = "Password")]
         public string Contrasena { get; set; }
         /*-----------*/

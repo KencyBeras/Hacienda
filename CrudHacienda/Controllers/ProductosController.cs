@@ -12,7 +12,6 @@ namespace CrudHacienda.Controllers
         public ActionResult Productos(ProductosCLS pcls)
         {
             List<ProductosCLS> ListaProductos = new List<ProductosCLS>();
-            //string NombreProducto = pcls.Producto;
             using (var db = new MyonexionEntities())
             {
                 ListaProductos = (from MisProductos in db.MisProductos
@@ -36,7 +35,6 @@ namespace CrudHacienda.Controllers
         /*Filtras la busqueda de productos*/
         public ActionResult Fproductos(ProductosCLS prodcls, string Producto)
         {
-           // string prod = prodcls.Producto;
             List<ProductosCLS> ListaProductos = new List<ProductosCLS>();
             using (var db = new MyonexionEntities())
             {
@@ -84,25 +82,83 @@ namespace CrudHacienda.Controllers
         }
 
         [HttpPost]
-        public int AgregarProductos(ProductosCLS PCLS,int Titulo)
+        public string AgregarProductos(ProductosCLS PCLS,int Titulo)
         {
-            int respuesta = 0;
-            using (var db = new MyonexionEntities())
+            string respuesta = "";
+            try
             {
-                if (Titulo==1)
+                if (!ModelState.IsValid)
                 {
-                    MisProductos MP = new MisProductos();
-                    MP.Producto = PCLS.Producto;
-                    MP.Descripcion = PCLS.Descripcion;
-                    MP.Estado = (int)PCLS.Estado;
-                    MP.FechaCreacion = PCLS.FechaCreacion;
-                    db.MisProductos.Add(MP);
-                    respuesta = db.SaveChanges();
+                    var query = (from state in ModelState.Values
+                                 from error in state.Errors
+                                 select error.ErrorMessage).ToList();
+                    respuesta += "<ul class='list-group'>";
+                    foreach (var item in query)
+                    {
+
+                        respuesta += "<li class='list-group-item'>" + item + "</li>";
+                    }
+
+                    respuesta += "</ul>";
+                    /*------***=================***------*/
                 }
+                else
+                {
+                    using (var db = new MyonexionEntities())
+                    {
+                        if (Titulo.Equals(-1))
+                        {
+                            //If para la insercion de datos
+                            MisProductos MP = new MisProductos();
+                            MP.Producto = PCLS.Producto;
+                            MP.Descripcion = PCLS.Descripcion;
+                            MP.Estado = (int)PCLS.Estado;
+                            MP.FechaCreacion = PCLS.FechaCreacion;
+                            MP.FechaActualizacion = MP.FechaCreacion;
+                            db.MisProductos.Add(MP);
+                            respuesta = db.SaveChanges().ToString();
+                            if (respuesta == "0") respuesta = "";
+                        }
+                        if (Titulo>=0)
+                        {
+                            //if para la editar datos
+                            MisProductos MP = new MisProductos();
+                            MP.Producto = PCLS.Producto;
+                            MP.Descripcion = PCLS.Descripcion;
+                            MP.Estado = (int)PCLS.Estado;
+                            MP.FechaActualizacion = PCLS.FechaCreacion;
+                            db.MisProductos.Add(MP);
+                            respuesta = db.SaveChanges().ToString();
+                        }
+                    }
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+
+                respuesta = "";
             }
 
             return respuesta;
         }
+        /*Metodo que recupera los datos exixtentes de acuerdo al registro seleccionado*/
+        public JsonResult RecuperarProductos(int Titulo)
+        {
+            ProductosCLS pcls = new ProductosCLS();
+            using (var db = new MyonexionEntities())
+            {
+                MisProductos Mprod = db.MisProductos.Where(p => p.IdProducto == Titulo).First();
+                pcls.IdProducto = Mprod.IdProducto;
+                pcls.Producto = Mprod.Producto;
+                pcls.Descripcion = Mprod.Descripcion;
+                pcls.Estado = Mprod.Estado;
+                pcls.FechaCreacion = Mprod.FechaCreacion;
+            }
+            return Json(pcls, JsonRequestBehavior.AllowGet);
+        }
+        /*------***============***------*/
 
         /*Eliminar productos*/
         public ActionResult ELiminarProductos(int id)
