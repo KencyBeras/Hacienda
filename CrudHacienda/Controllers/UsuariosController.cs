@@ -38,51 +38,58 @@ namespace CrudHacienda.Controllers
             List<UsuariosCLS> ListaUsuarios = new List<UsuariosCLS>();
             using (var db = new MyonexionEntities())
             {
-                ListaUsuarios = (from RVU in db.Usuario
-                                             select new UsuariosCLS
-                                             {
-                                                 IdUsuario = RVU.IdUsuario,
-                                                 NombreUsuario = RVU.NombreUsuario,
-                                                 TipoUsuario = RVU.TipoUsuario,
-                                                 CodigoEmpleado = RVU.CodEmpleado
-                                             }).ToList();
+                List<UsuariosCLS> FListaUsuarios =(from RVU in db.Usuario
+                                                 select new UsuariosCLS
+                                                 {
+                                                     IdUsuario = RVU.IdUsuario,
+                                                     NombreUsuario = RVU.NombreUsuario,
+                                                     TipoUsuario = RVU.TipoUsuario,
+                                                     CodigoEmpleado = RVU.CodEmpleado
 
+                                                 }).ToList();
+
+                ListaUsuarios.AddRange(FListaUsuarios);
+                                          
             }
 
                 return View(ListaUsuarios);
         }
+
         /*Accion que hace un filtro de los usuarios de acuerdo a los parametros preestablecidos*/
-        public ActionResult FiltroUsuarios(string Usuario)
+        public ActionResult FiltroUsuarios(UsuariosCLS ucls,string Usuario)
         {
             List<UsuariosCLS> ListaUsuarios = new List<UsuariosCLS>();
             using (var db = new MyonexionEntities())
             {
                 if (Usuario == null)
                 {
-                    ListaUsuarios = (from RVU in db.Usuario
-                                     select new UsuariosCLS
-                                     {
-                                         IdUsuario = RVU.IdUsuario,
-                                         NombreUsuario = RVU.NombreUsuario,
-                                         TipoUsuario = RVU.TipoUsuario,
-                                         CodigoEmpleado = RVU.CodEmpleado
-                                     }).ToList();
+                    List<UsuariosCLS> FListaUsuarios = (from RVU in db.Usuario
+                                                        select new UsuariosCLS
+                                                        {
+                                                            IdUsuario = RVU.IdUsuario,
+                                                            NombreUsuario = RVU.NombreUsuario,
+                                                            TipoUsuario = RVU.TipoUsuario,
+                                                            CodigoEmpleado = RVU.CodEmpleado
+                                                        }).ToList();
 
+                    ListaUsuarios.AddRange(FListaUsuarios);
                 }
                 else
                 {
-                    ListaUsuarios = (from RVU in db.Usuario
-                                     where RVU.NombreUsuario.Contains(Usuario)
-                                     select new UsuariosCLS
-                                     {
-                                         IdUsuario = RVU.IdUsuario,
-                                         NombreUsuario= RVU.NombreUsuario,
-                                         TipoUsuario = RVU.TipoUsuario,
-                                         CodigoEmpleado = RVU.CodEmpleado
-                                     }).ToList();
+                    List<UsuariosCLS> FListaUsuarios = (from RVU in db.Usuario
+                                                        where RVU.NombreUsuario.Contains(Usuario)
+                                                        select new UsuariosCLS
+                                                        {
+                                                            IdUsuario = RVU.IdUsuario,
+                                                            NombreUsuario= RVU.NombreUsuario,
+                                                            TipoUsuario = RVU.TipoUsuario,
+                                                            CodigoEmpleado = RVU.CodEmpleado
+                                                        }).ToList();
+
+                    ListaUsuarios.AddRange(FListaUsuarios);
 
                 }
-                return PartialView("_TableP",ListaUsuarios); 
+                return PartialView("_TableUsuarios",ListaUsuarios); 
             }
 
 
@@ -113,7 +120,7 @@ namespace CrudHacienda.Controllers
                     /*Si el modelo es valido se ejecutaran las siguientes leineas*/
                     using (var db = new MyonexionEntities())
                     {
-                        if (Titulo.Equals(-1))
+                        if (Titulo == -1)
                         {//If para la insercion de datos
                             Usuario user = new Usuario();
                             user.IdUsuario = ucls.IdUsuario;
@@ -162,13 +169,12 @@ namespace CrudHacienda.Controllers
         }
 
         /*Metodo que recupera los datos exixtentes de acuerdo al registro seleccionado*/
-        public JsonResult RecuperarUsuarios(int Titulo)
+        public JsonResult RecuperarUsuarios(int idusuario)
         {
             UsuariosCLS ucls = new UsuariosCLS();
             using (var db = new MyonexionEntities())
             {
-                Usuario user = db.Usuario.Where(p => p.IdUsuario == Titulo).First();
-                ucls.IdUsuario = user.IdUsuario;
+                Usuario user = db.Usuario.Where(p => p.IdUsuario == idusuario).First();
                 ucls.NombreUsuario = user.NombreUsuario;
                 ucls.Contrasena = user.Contrasena;
                 ucls.TipoUsuario = user.TipoUsuario;

@@ -25,13 +25,14 @@ namespace CrudHacienda.Models
         [Display(Name = "Estado")]
         public Nullable<int> Estado { get; set; }
         /*---------------------------------------*/
-        [Required]
         [Display(Name = "Fecha Creacion")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public System.DateTime FechaCreacion { get; set; }
         /*---------------------------------------*/
         [Display(Name = "Ultima Actualizacion")]
-        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}", ApplyFormatInEditMode = true)]
+        [DataType(DataType.Date)]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:dd-MM-yyyy}")]
         public Nullable<System.DateTime> FechaActualizacion { get; set; }
         /*Variable adicional*/
         public string mensaje { get; set; }

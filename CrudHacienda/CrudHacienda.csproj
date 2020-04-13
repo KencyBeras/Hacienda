@@ -246,14 +246,14 @@
     <Content Include="Views\Proveedores\AgregarProveedor.cshtml" />
     <Content Include="Views\Proveedores\ListaProveedores.cshtml" />
     <Content Include="Views\Productos\AgregarProductos.cshtml" />
-    <Content Include="Views\Productos\Productos.cshtml" />
     <Content Include="Views\Productos\EditarProductos.cshtml" />
     <Content Include="Views\Proveedores\EditarProveedores.cshtml" />
-    <Content Include="Views\Usuarios\_TableP.cshtml" />
+    <Content Include="Views\Usuarios\_TableUsuarios.cshtml" />
     <Content Include="Views\Productos\_TablaProductos.cshtml" />
     <Content Include="Views\Proveedores\_TablaProveedores.cshtml" />
     <Content Include="Views\Empleados\Index.cshtml" />
     <Content Include="Views\Empleados\_TablaEmpleados.cshtml" />
+    <Content Include="Views\Productos\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

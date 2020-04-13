@@ -112,7 +112,7 @@
       <PropertyRef Name="Usuario" />
     </Key>
     <Property Name="Usuario" Type="String" MaxLength="12" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Clave" Type="String" MaxLength="32" FixedLength="false" Unicode="false" Nullable="false" />
+    <Property Name="Clave" Type="String" MaxLength="255" FixedLength="false" Unicode="false" />
     <Property Name="Permisos" Type="String" MaxLength="16" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="CodEmpleado" Type="Int32" />
   </EntityType>
@@ -222,5 +222,16 @@
       <End Role="Proveedores" EntitySet="Proveedores" />
       <End Role="Produccion" EntitySet="Produccion" />
     </AssociationSet>
+    <EntitySet Name="Usuario" EntityType="HaciendaModel.Usuario" />
   </EntityContainer>
+  <EntityType Name="Usuario">
+    <Key>
+      <PropertyRef Name="IdUsuario" />
+    </Key>
+    <Property Name="IdUsuario" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="NombreUsuario" Type="String" Nullable="false" MaxLength="22" FixedLength="false" Unicode="false" />
+    <Property Name="Contrasena" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="TipoUsuario" Type="String" Nullable="false" MaxLength="24" FixedLength="false" Unicode="false" />
+    <Property Name="CodEmpleado" Type="Int32" Nullable="false" />
+  </EntityType>
 </Schema>

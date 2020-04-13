@@ -9,7 +9,8 @@ namespace CrudHacienda.Controllers
 {
     public class ProductosController : Controller
     {
-        public ActionResult Productos(ProductosCLS pcls)
+        //(Index) al momenot de iniacira la App de esta forma aparecera usuarios
+        public ActionResult Index()
         {
             List<ProductosCLS> ListaProductos = new List<ProductosCLS>();
             using (var db = new MyonexionEntities())
@@ -29,16 +30,15 @@ namespace CrudHacienda.Controllers
                 return View(ListaProductos);
             }
 
-
         }
 
         /*Filtras la busqueda de productos*/
-        public ActionResult Fproductos(ProductosCLS prodcls, string Producto)
+        public ActionResult Fproductos(ProductosCLS prodcls, string Busqueda)
         {
             List<ProductosCLS> ListaProductos = new List<ProductosCLS>();
             using (var db = new MyonexionEntities())
             {
-                if (Producto == null)
+                if (Busqueda == null)
                 {
 
                     ListaProductos = (from MisProductos in db.MisProductos
@@ -55,8 +55,8 @@ namespace CrudHacienda.Controllers
                 else
                 {
                     ListaProductos = (from MisProductos in db.MisProductos
-                                      where( MisProductos.Estado == 1 && MisProductos.Producto.Contains(Producto)) ||
-                                     (MisProductos.Estado == 1 && MisProductos.Descripcion.Contains(Producto))
+                                      where( MisProductos.Estado == 1 && MisProductos.Producto.Contains(Busqueda)) ||
+                                     (MisProductos.Estado == 1 && MisProductos.Descripcion.Contains(Busqueda))
                                       select new ProductosCLS
                                       {
                                           IdProducto = MisProductos.IdProducto,
@@ -74,12 +74,12 @@ namespace CrudHacienda.Controllers
         }
 
 
-        /*AgregarProductos*/
-        public ActionResult AgregarProductos()
-        {
+        ///*AgregarProductos*/
+        //public ActionResult AgregarProductos()
+        //{
            
-                return View();
-        }
+        //        return View();
+        //}
 
         [HttpPost]
         public string AgregarProductos(ProductosCLS PCLS,int Titulo)
@@ -106,7 +106,7 @@ namespace CrudHacienda.Controllers
                 {
                     using (var db = new MyonexionEntities())
                     {
-                        if (Titulo.Equals(-1))
+                        if (Titulo == -1)
                         {
                             //If para la insercion de datos
                             MisProductos MP = new MisProductos();
@@ -119,15 +119,14 @@ namespace CrudHacienda.Controllers
                             respuesta = db.SaveChanges().ToString();
                             if (respuesta == "0") respuesta = "";
                         }
-                        if (Titulo>=0)
+                        if (Titulo >= 0)
                         {
                             //if para la editar datos
-                            MisProductos MP = new MisProductos();
+                            MisProductos MP = db.MisProductos.Where(p => p.IdProducto == Titulo).First();
                             MP.Producto = PCLS.Producto;
                             MP.Descripcion = PCLS.Descripcion;
                             MP.Estado = (int)PCLS.Estado;
-                            MP.FechaActualizacion = PCLS.FechaCreacion;
-                            db.MisProductos.Add(MP);
+                            MP.FechaActualizacion = PCLS.FechaCreacion; 
                             respuesta = db.SaveChanges().ToString();
                         }
                     }
@@ -144,17 +143,16 @@ namespace CrudHacienda.Controllers
             return respuesta;
         }
         /*Metodo que recupera los datos exixtentes de acuerdo al registro seleccionado*/
-        public JsonResult RecuperarProductos(int Titulo)
-        {
+        public JsonResult RecuperarProductos(int IdProductos)
+        {                                   //La variable Productos es enviada desde la clase Editar en el index
             ProductosCLS pcls = new ProductosCLS();
             using (var db = new MyonexionEntities())
             {
-                MisProductos Mprod = db.MisProductos.Where(p => p.IdProducto == Titulo).First();
-                pcls.IdProducto = Mprod.IdProducto;
+                MisProductos Mprod = db.MisProductos.Where(p => p.IdProducto == IdProductos).First();
                 pcls.Producto = Mprod.Producto;
                 pcls.Descripcion = Mprod.Descripcion;
                 pcls.Estado = Mprod.Estado;
-                pcls.FechaCreacion = Mprod.FechaCreacion;
+                pcls.FechaActualizacion = Mprod.FechaActualizacion;
             }
             return Json(pcls, JsonRequestBehavior.AllowGet);
         }
@@ -171,52 +169,6 @@ namespace CrudHacienda.Controllers
             }
             return RedirectToAction("Productos");
         }
-
-
-        /*Editar productos*/
-        [HttpGet]
-        public ActionResult EditarProductos(int id)
-        {
-            ProductosCLS prodcls = new ProductosCLS();
-            using (var db = new MyonexionEntities())
-            {
-                MisProductos mprod = db.MisProductos.Where(p => p.IdProducto.Equals(id)).First();
-
-                prodcls.IdProducto = mprod.IdProducto;
-                prodcls.Producto = mprod.Producto;
-                prodcls.Descripcion = mprod.Descripcion;
-                prodcls.Estado = mprod.Estado;
-                prodcls.FechaActualizacion = mprod.FechaActualizacion; 
-                db.SaveChanges();
-            }
-
-            return View(prodcls);
-        }
-
-        [HttpPost]
-        public ActionResult EditarProductos(ProductosCLS prodcls)
-        {
-            if (!ModelState.IsValid)
-            {
-                return View(prodcls);
-            }
-
-            int Idproducto = prodcls.IdProducto;
-            using (var db = new MyonexionEntities())
-            {
-                
-                MisProductos mprod = db.MisProductos.Where(p => p.IdProducto.Equals(Idproducto)).First();
-
-                mprod.IdProducto = prodcls.IdProducto;
-                mprod.Producto = prodcls.Producto;
-                mprod.Descripcion = prodcls.Descripcion;
-                mprod.Estado = (int)prodcls.Estado;
-                mprod.FechaActualizacion = prodcls.FechaActualizacion;
-                db.SaveChanges();
-            }
-
-            return RedirectToAction("Productos");
-        }
-
+   
     }
 }

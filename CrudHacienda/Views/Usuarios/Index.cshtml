@@ -19,7 +19,7 @@
         @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
     </div>
 </div>
-@using (Ajax.BeginForm("FiltroUsuarios", "", new AjaxOptions
+@using (Ajax.BeginForm("FiltroUsuarios", "Usuarios", new AjaxOptions
 {
     HttpMethod = "POST",
     UpdateTargetId = "DivUser",
@@ -35,7 +35,7 @@
     <br />
     <div class="form-horizontal">
         <div id="DivUser">
-            @Html.Partial("_TableP", Model)
+            @Html.Partial("_TableUsuarios", Model)
         </div>
     </div>
 }
@@ -87,8 +87,7 @@
 </div>
 
 <script>
-    var Usuario = document.getElementById("Usuario");
-    //Se obtienen los datos del Texbox Usuario
+    var Usuario = document.getElementById("Usuario");//Se obtienen los datos del Texbox Usuario
     Usuario.onkeyup = function () {
         $("#frmfiltro").trigger("submit");
     }/*Se refrescara el form cada vez que se presione
@@ -105,22 +104,20 @@
 
     function Agregar() {
         Limpiar();
-        document.getElementById("error").innerHTML = "";
         document.getElementById("Titulo").value = -1;
     }
 
-    function Editar(id) {
+    function Editar(IdUsuario) {
         Limpiar();
-        document.getElementById("error").innerHTML = "";
-        document.getElementById("Titulo").value = id;
-
-        $.get("Usuarios/RecuperarUsuarios/?Titulo=" + id, function (data)
+        $.get("Usuarios/RecuperarUsuarios/?idusuario=" + IdUsuario, function (data)
         {
             document.getElementById("NombreUsuario").value = data.NombreUsuario;
             document.getElementById("Contrasena").value = data.Contrasena;
             document.getElementById("TipoUsuario").value = data.TipoUsuario;
             document.getElementById("CodigoEmpleado").value = data.CodigoEmpleado;
         })
+
+        document.getElementById("Titulo").value = IdUsuario;
     }
 
     function AgregarUsuarios(resultado) {
