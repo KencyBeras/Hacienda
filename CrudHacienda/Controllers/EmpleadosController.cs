@@ -25,8 +25,6 @@ namespace CrudHacienda.Controllers
                 ViewBag.ListaPuestos = Lista;
 
             }
-
-
         }
 
         public void ListarComboEstado()
@@ -42,11 +40,9 @@ namespace CrudHacienda.Controllers
 
                          }).ToList();
                 Lista.Insert(0, new SelectListItem { Text = "Estado --Seleccionar--", Value = "" });
-                ViewBag.LstaEstado = Lista;
+                ViewBag.ListaEstado = Lista;
 
             }
-
-
         }
 
         // GET: Empleados
@@ -150,34 +146,117 @@ namespace CrudHacienda.Controllers
             return PartialView("_TablaEmpleados", ListaEmpleados);
         }
 
-        public int AgregarEmpleados(EmpleadosCLS empcls, int Titulo)
+        public string AgregarEmpleados(EmpleadosCLS empcls, int Titulo)
         {
-            int respuesta = 1;
-            using(var db = new MyonexionEntities())
-            {
-                if (Titulo == 1)
-                {
-                    Empleados emp = new Empleados();
-                    emp.Nombre = empcls.Nombre;
-                    emp.Apellidos = empcls.Apellidos;
-                    emp.Cedula = empcls.Cedula;
-                    emp.Telefono = empcls.Telefono;
-                    emp.Email = empcls.Email;
-                    emp.Sexo = empcls.Sexo;
-                    emp.Direccion = empcls.Direccion;
-                    emp.Puesto = empcls.Puesto;
-                    emp.Estado = empcls.Estado;
-                    emp.FechaEntrada = empcls.FechaEntrada;
-                    emp.FechaActualizacion = emp.FechaEntrada;
-                    db.Empleados.Add(emp);
-                    respuesta = db.SaveChanges();
+            string respuesta = "";
+            try {
 
+                if (!ModelState.IsValid)
+                {
+                    var query = (from state in ModelState.Values
+                                 from error in state.Errors
+                                 select error.ErrorMessage).ToList();
+                    respuesta += "<ul class='list-group'>";
+                    foreach (var item in query)
+                    {
+
+                        respuesta += "<li class='list-group-item'>" + item + "</li>";
+                    }
+
+                    respuesta += "</ul>";
                 }
-    
+                else
+                {
+                    using (var db = new MyonexionEntities())
+                    {
+                        if (Titulo == -1)
+                        {
+                            Empleados emp = new Empleados();
+                            emp.Nombre = empcls.Nombre;
+                            emp.Apellidos = empcls.Apellidos;
+                            emp.Cedula = empcls.Cedula;
+                            emp.Telefono = empcls.Telefono;
+                            emp.Email = empcls.Email;
+                            emp.Sexo = empcls.Sexo;
+                            emp.Direccion = empcls.Direccion;
+                            emp.Puesto = empcls.Puesto;
+                            emp.Estado = empcls.Estado;
+                            emp.FechaEntrada = empcls.FechaEntrada;
+                            emp.FechaActualizacion = emp.FechaEntrada;
+                            db.Empleados.Add(emp);
+                            respuesta = db.SaveChanges().ToString();
+                            if (respuesta == "0") respuesta = "";
+                        }
+                        if (Titulo >= 0)
+                        {
+                            Empleados EMPDO = db.Empleados.Where(p => p.IdEmpleado == Titulo).First();
+                            EMPDO.Nombre = empcls.Nombre;
+                            EMPDO.Apellidos = empcls.Apellidos;
+                            EMPDO.Cedula = empcls.Cedula;
+                            EMPDO.Telefono = empcls.Telefono;
+                            EMPDO.Email = empcls.Email;
+                            EMPDO.Sexo = empcls.Sexo;
+                            EMPDO.Direccion = empcls.Direccion;
+                            EMPDO.Puesto = empcls.Puesto;
+                            EMPDO.FechaActualizacion = EMPDO.FechaEntrada;
+                            EMPDO.Estado = empcls.Estado;
+                            respuesta = db.SaveChanges().ToString();
+                        }
+                    }
+                }
+
+            }
+            catch (Exception ex)
+            {
+                respuesta = "";
+                /*Se iguala la respuesta a vacion para que esto
+                se retorne como un error*/
+            }
+            return respuesta;
+        }
+
+        public JsonResult RecuperarEmpleados(int idempleado) {
+
+            EmpleadosCLS EmpldoCLS = new EmpleadosCLS();
+            using (var db = new MyonexionEntities())
+            {
+                Empleados Empldo = db.Empleados.Where(p => p.IdEmpleado == idempleado).First();
+                EmpldoCLS.IdEmpleado = Empldo.IdEmpleado;
+                EmpldoCLS.Cedula = Empldo.Cedula;
+                EmpldoCLS.Nombre = Empldo.Nombre;
+                EmpldoCLS.Apellidos = Empldo.Apellidos;
+                EmpldoCLS.Sexo = Empldo.Sexo;
+                EmpldoCLS.Telefono = Empldo.Telefono;
+                EmpldoCLS.Email = Empldo.Email;
+                EmpldoCLS.Direccion = Empldo.Direccion;
+                EmpldoCLS.Puesto = Empldo.Puesto;
+                EmpldoCLS.FechaEntrada = Empldo.FechaEntrada;
+                EmpldoCLS.Estado = Empldo.Estado;
             }
 
-            return respuesta;
+            return Json(EmpldoCLS, JsonRequestBehavior.AllowGet);
+        }
 
+        /*Eliminar empleados*/
+        public string EliminarEmpleado(EmpleadosCLS EMPCLS)
+        {
+            string respuesta = "";
+            try
+            {
+                int idempleado = EMPCLS.IdEmpleado;
+                using (var db = new MyonexionEntities())
+                {
+                    Empleados EMP = db.Empleados.Where(p => p.IdEmpleado == idempleado).First();
+                    EMP.Estado = 2;
+                    respuesta = db.SaveChanges().ToString();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                respuesta = "";
+            }
+            return respuesta;
         }
 
     }

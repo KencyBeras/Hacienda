@@ -3,7 +3,7 @@
 @{
     ViewBag.Title = "Index";
     List<SelectListItem> ListaPuestos = (List<SelectListItem>)ViewBag.ListaPuestos;
-    List<SelectListItem> ListaEstado = (List<SelectListItem>)ViewBag.LstaEstado;
+    List<SelectListItem> ListaEstado = (List<SelectListItem>)ViewBag.ListaEstado;
 }
 
 <h2>Index</h2>
@@ -33,86 +33,100 @@
     </div>
 }
 
+<!--Modal Elimainar datos-->
+<div class="modal fade" id="exampleModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar registro</h5>
+            </div>
+            <div class="modal-body">
+                Seguro que desea eliminar el registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarConf" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" onclick="EliminarRegistro()" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal: Esta ventana nos abrra un formulario flotante para agregar -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Producto</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Empleado</h5>
             </div>
             @using (Ajax.BeginForm("AgregarEmpleados", "Empleados", null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                UpdateTargetId = "DivUser",
-                InsertionMode = InsertionMode.Replace,
-                OnSuccess = "AgregarEmpleados" //Funcion pendiente de crear
+                OnSuccess = "AgregarEmpleados",
+                UpdateTargetId = "Diverror",
+                InsertionMode = InsertionMode.Replace
             }))
             {
                 @Html.Hidden("Titulo")
                 //Variable oculto
-            <div class="modal-body">
+                <div class="modal-body">
 
-                <div class="form-group">
-                    @Html.TextBox("Cedula", null, new { @class = "form-control", placeholder = "Numero Documento" })
-                </div>
-                <div class=" row form-group">
-                    <div class="col-lg-6">
-                        @Html.TextBox("Nombre", null, new { @class = "form-control", placeholder = "Nombre" })
+                    <div class="form-group">
+                        @Html.TextBox("Cedula", null, new { @class = "form-control", placeholder = "Numero Documento" })
+                    </div>
+                    <div class=" row form-group">
+                        <div class=" col-md-12 col-lg-6">
+                            @Html.TextBox("Nombre", null, new { @class = "form-control", placeholder = "Nombre" })
+                        </div>
+
+                        <div class="col-md-12 col-lg-6">
+                            @Html.TextBox("Apellidos", null, new { @class = "form-control", placeholder = "Apellidos" })
+                        </div>
                     </div>
 
-                    <div class="col-lg-6">
-                        @Html.TextBox("Apellidos", null, new { @class = "form-control", placeholder = "Apellidos" })
-                    </div>
-                </div>
-
-                <div class="form-group">
-                    <select class="form-control" id="Sexo" name="Sexo">
-                        <option value="">Sexo (Seleccionar...)</option>
-                        <option value="F">Femenino</option>
-                        <option value="M">Masculino</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <select class="form-control" id="Estado" name="Estado">
-                        <option value="">Estado (Seleccionar...)</option>
-                        <option value=0>Inactivo</option>
-                        <option value=1>Activo</option>
-                    </select>
-                </div>
-
-                <div class=" row form-group">
-
-                    <div class="col-lg-6">
-                        @Html.TextBox("Telefono", null, new { @class = "form-control", placeholder = "Telefono" })
+                    <div class="form-group">
+                        <select class="form-control" id="Sexo" name="Sexo">
+                            <option value="">Sexo (Seleccionar...)</option>
+                            <option value="F">Femenino</option>
+                            <option value="M">Masculino</option>
+                        </select>
                     </div>
 
-                    <div class="col-lg-6">
-                        @Html.TextBox("Email", null, new { @class = "form-control", placeholder = "Email/Correo" })
+                    <div class="row form-group">
+
+                        <div class="col-lg-6">
+                            @Html.TextBox("Telefono", null, new { @class = "form-control", placeholder = "Telefono" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            @Html.TextBox("Email", null, new { @class = "form-control", placeholder = "Email/Correo" })
+                        </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    @Html.TextBox("Direccion", null, new { @class = "form-control", placeholder = "Direccion" })
-                </div>
+                    <div class="form-group">
+                        @Html.TextBox("Direccion", null, new { @class = "form-control", placeholder = "Direccion" })
+                    </div>
 
-                <div class="form-group">
-                    @Html.DropDownList("Puesto", ListaPuestos, new { @class = "form-control", placeholder = "Fecha" })
-                </div>
+                    <div class="form-group">
+                        @Html.DropDownList("Puesto", ListaPuestos, new { @class = "form-control" })
+                    </div>
 
-                <div class="form-group">
-                    <input type="date" class="form-control" id="FechaEntrada" Name="FechaEntrada">
-                </div>
+                    <div class="form-group">
+                        <input type="date" class="form-control" id="FechaEntrada" Name="FechaEntrada">
+                    </div>
 
-                <div class="form-group">
-                    @Html.DropDownList("Estado", ListaEstado, new { @class = "form-control", placeholder = "Fecha" })
-                </div>
+                    <div class="form-group">
+                        @Html.DropDownList("Estado", ListaEstado, new { @class = "form-control" })
+                    </div>
 
-            </div>
+                </div>
 
                 <div class="modal-footer">
-                    <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="submit" class="btn btn-primary">Save changes</button>
+                    <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Enviar</button>
+                </div>
+
+                <div id="Diverror">
+
                 </div>
             }
         </div>
@@ -123,6 +137,14 @@
 
 
 <script>
+    function Limpiar() {
+        var controles = document.getElementsByClassName("form-control");
+        var control;
+        for (var i = 0; i < controles.length; i++) {
+            control = controles[i];//forma1
+            control.value = "";
+        }
+    }
 
     var frmsearch = document.getElementById("frmsearch");
     var Busqueda = document.getElementById("Busqueda");
@@ -132,21 +154,61 @@
     }
 
     function Agregar() {
-
-        document.getElementById("Titulo").value = 1;
+        Limpiar();
+        document.getElementById("Diverror").innerHTML = "";
+        document.getElementById("Titulo").value = -1;
     }
 
     function AgregarEmpleados(res) {
-        if (res >= 1 ) {
+        if (res == "1" || res == "0") {
             $("#frmsearch").trigger("submit");
             alert("Se guardaron los datos correctamente...");
-            document.getElementById("btnclose").click()
+            document.getElementById("btnclose").click();
         }
-        else
+        else {
+            alert("Ocurrio un error, verifique que los datos sean correctos...");
+
+        }
+    }
+
+    function Editar(IdEmp) {
+        /*Al moemnto de hacer click en editar se le asigna el
+         * idEmpleado a la variable Titulo*/
+        Limpiar();
+        document.getElementById("Diverror").innerHTML = "";
+        $.get("Empleados/RecuperarEmpleados/?idempleado=" + IdEmp, function (data) {
+            document.getElementById("Cedula").value = data.Cedula;
+            document.getElementById("Nombre").value = data.Nombre;
+            document.getElementById("Apellidos").value = data.Apellidos;
+            document.getElementById("Sexo").value = data.Sexo;
+            document.getElementById("Telefono").value = data.Telefono;
+            document.getElementById("Email").value = data.Email;
+            document.getElementById("Direccion").value = data.Direccion;
+            document.getElementById("Puesto").value = data.Puesto;
+            document.getElementById("FechaEntrada").value = data.FechaEntrada;
+            document.getElementById("Estado").value = data.Estado;
+        })
+
+        document.getElementById("Titulo").value = IdEmp;
+    }
+
+    function LlamarModal(IdEmpl)
+    {
+        document.getElementById("Titulo").value = IdEmpl;
+     //Asigna el valor recibido en (IdEmpl) a la variable Titulo
+    }
+
+    function EliminarRegistro()
+    {
+        var Nid = document.getElementById("Titulo").value;
+        $.get("Empleados/EliminarEmpleado/?IdEmpleado=" + Nid, function (data)
         {
-            alert("UN un error al insertar los datos...");
-
-        }
-
+            if (data == "1")
+            {
+                alert("Se ejecuto la ccion de manera exitosa!");
+                $("#frmsearch").trigger("submit");
+                document.getElementById("btnCerrarConf").click();
+            }
+        })
     }
 </script>

@@ -1,6 +1,7 @@
 ﻿@model IEnumerable<CrudHacienda.Models.EmpleadosCLS>
 
 <table class="table">
+    <br />
     <tr>
         <th>
             <span>Id</span>
@@ -42,7 +43,7 @@
                 @Html.DisplayFor(modelItem => item.NombreCompleto)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Telefono)
+                @Html.DisplayFor(modelItem => item.Telefono)  
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Email)
@@ -54,10 +55,11 @@
                 @Html.DisplayFor(modelItem => item.Nestado)
             </td>
             <td>
-                @Html.ActionLink(" ", "EditarProductos", "Productos", new { id = @item.IdEmpleado }, new { @class = "btn btn-info btn-xs glyphicon glyphicon-edit" })
-                @Html.ActionLink(" ", "EliminarProductos", "Productos", new { id = @item.IdEmpleado }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-trash", @onclick = "BorrarProducto()" })
+                <button type="button" onclick="Editar(@item.IdEmpleado)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal"> </button>
+                <button type="button" onclick="LlamarModal(@item.IdEmpleado)" class="btn btn-danger btn-xs glyphicon glyphicon-trash" data-toggle="modal" data-target="#exampleModalEliminar"> </button>
             </td>
         </tr>
     }
 
 </table>
+ 

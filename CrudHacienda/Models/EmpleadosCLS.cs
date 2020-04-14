@@ -42,6 +42,7 @@ namespace CrudHacienda.Models
         public Nullable<System.DateTime> FechaActualizacion { get; set; }
         [Required]
         public int Estado { get; set;}
+
         public string Nestado { get; set; }
         [Display(Name = "Nombre")]
         public string NombreCompleto { get { return Nombre + " " + Apellidos; } }
