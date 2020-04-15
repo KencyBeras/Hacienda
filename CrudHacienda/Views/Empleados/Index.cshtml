@@ -68,57 +68,57 @@
             {
                 @Html.Hidden("Titulo")
                 //Variable oculto
-                <div class="modal-body">
+            <div class="modal-body">
 
-                    <div class="form-group">
-                        @Html.TextBox("Cedula", null, new { @class = "form-control", placeholder = "Numero Documento" })
-                    </div>
-                    <div class=" row form-group">
-                        <div class=" col-md-12 col-lg-6">
-                            @Html.TextBox("Nombre", null, new { @class = "form-control", placeholder = "Nombre" })
-                        </div>
-
-                        <div class="col-md-12 col-lg-6">
-                            @Html.TextBox("Apellidos", null, new { @class = "form-control", placeholder = "Apellidos" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <select class="form-control" id="Sexo" name="Sexo">
-                            <option value="">Sexo (Seleccionar...)</option>
-                            <option value="F">Femenino</option>
-                            <option value="M">Masculino</option>
-                        </select>
-                    </div>
-
-                    <div class="row form-group">
-
-                        <div class="col-lg-6">
-                            @Html.TextBox("Telefono", null, new { @class = "form-control", placeholder = "Telefono" })
-                        </div>
-
-                        <div class="col-lg-6">
-                            @Html.TextBox("Email", null, new { @class = "form-control", placeholder = "Email/Correo" })
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        @Html.TextBox("Direccion", null, new { @class = "form-control", placeholder = "Direccion" })
-                    </div>
-
-                    <div class="form-group">
-                        @Html.DropDownList("Puesto", ListaPuestos, new { @class = "form-control" })
-                    </div>
-
-                    <div class="form-group">
-                        <input type="date" class="form-control" id="FechaEntrada" Name="FechaEntrada">
-                    </div>
-
-                    <div class="form-group">
-                        @Html.DropDownList("Estado", ListaEstado, new { @class = "form-control" })
-                    </div>
-
+                <div class="form-group">
+                    @Html.TextBox("Cedula", null, new { @class = "form-control", placeholder = "Numero Documento" })
                 </div>
+                <div class=" row form-group">
+                    <div class=" col-md-12 col-lg-6">
+                        @Html.TextBox("Nombre", null, new { @class = "form-control", placeholder = "Nombre" })
+                    </div>
+
+                    <div class="col-md-12 col-lg-6">
+                        @Html.TextBox("Apellidos", null, new { @class = "form-control", placeholder = "Apellidos" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <select class="form-control" id="Sexo" name="Sexo">
+                        <option value="">Sexo (Seleccionar...)</option>
+                        <option value="F">Femenino</option>
+                        <option value="M">Masculino</option>
+                    </select>
+                </div>
+
+                <div class="row form-group">
+
+                    <div class="col-lg-6">
+                        @Html.TextBox("Telefono", null, new { @class = "form-control", placeholder = "Telefono" })
+                    </div>
+
+                    <div class="col-lg-6">
+                        @Html.TextBox("Email", null, new { @class = "form-control", placeholder = "Email/Correo" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.TextBox("Direccion", null, new { @class = "form-control", placeholder = "Direccion" })
+                </div>
+
+                <div class="form-group">
+                    @Html.DropDownList("Puesto", ListaPuestos, new { @class = "form-control" })
+                </div>
+
+                <div class="form-group">
+                    @Html.Editor("FechaEntrada", null, new {htmlAttributes= new { @class="form-control", @type = "date"} })
+                </div>
+
+                <div class="form-group">
+                    @Html.DropDownList("Estado", ListaEstado, new { @class = "form-control" })
+                </div>
+
+            </div>
 
                 <div class="modal-footer">
                     <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>

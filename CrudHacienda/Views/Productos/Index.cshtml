@@ -38,6 +38,25 @@
     </div>
 }
 
+
+<!--Modal Elimainar datos-->
+<div class="modal fade" id="ModalELiminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar registro</h5>
+            </div>
+            <div class="modal-body">
+                Seguro que desea eliminar el registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarConf" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" onclick="EliminarRegistro()" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!-- Modal: Esta ventana nos abrra un formulario flotante para agregar -->
 <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -88,45 +107,48 @@
 <!--End Modal-->
 
 <script>
-    function BorrarProducto() {
-        if (confirm("Realmente desea eliminar el producto?") == 1) {
+    function EliminarRegistro()
+    {
+        var fidproducto = document.getElementById("Titulo").value;
+        $.get("Productos/EliminarRegistro/?idproducto=" + fidproducto, function (data) {
+            if (data == 1) {
+                alert("La accion se ejecuto correctamente...");
+                $("#frmsearch").trigger("submit");
+                document.getElementById("btnCerrarConf").click();
+            }
+            else
+            {
+                alert("Ocurrio un error al momnto de eliminar el registro");
 
-            alert("Se elimino el producto satisfactoriamente.");
-        }//Este script valida que realmente deseamos eliminar este registro
-        else {
-            event.preventDefault();
-        }
+            }
+        })
+        
     }
 
     var Busqueda = document.getElementById("Busqueda");
     Busqueda.onkeyup = function () {
         $("#frmsearch").trigger("submit");
-    }
+    } 
 
     function Limpiar() {
-        document.getElementById("Producto").value = "";
-        document.getElementById("Descripcion").value = "";
-        document.getElementById("Estado").value = "";
-        document.getElementById("FechaCreacion").value = "";
         document.getElementById("error").innerHTML = "";
-        //Funcion liempieza de los registros anteriores en el Modal
+        var controles = document.getElementsByClassName("form-control");
+        var control;
+        for (var i = 0; i < controles.length; i++) {
+            controles[i].value = "";//forma2
+        }
     }
-
-    //function Limpiar() {
-    //    var controles = document.getElementsByClassName("form-control");
-    //    var control;
-    //    for (var i = 0; i < controles.length; i++) {
-    //        control = controles[i];//forma1
-    //        control.value = "";
-    //        /*-----------------------------------------------*/
-    //        controles[i].value = "";//forma2
-    //    }
-    //}
 
     function Agregar() {
         //From btn Agregar
         Limpiar();
         document.getElementById("Titulo").value = -1;
+    }
+
+    function LanzarModal(idproducto)
+    {
+        document.getElementById("Titulo").value = idproducto;
+
     }
 
     function Editar(IdProducto) {

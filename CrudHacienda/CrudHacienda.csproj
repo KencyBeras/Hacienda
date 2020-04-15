@@ -132,6 +132,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="Controllers\EmpleadosController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\ProduccionController.cs" />
     <Compile Include="Controllers\ProductosController.cs" />
     <Compile Include="Controllers\ProveedoresController.cs" />
     <Compile Include="Controllers\UsuariosController.cs" />
@@ -141,6 +142,7 @@
     <Compile Include="Models\DetalleProduccion.cs">
       <DependentUpon>Myconexion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\DetalleProduccionCLS.cs" />
     <Compile Include="Models\Empleados.cs">
       <DependentUpon>Myconexion.tt</DependentUpon>
     </Compile>
@@ -169,6 +171,7 @@
     <Compile Include="Models\Produccion.cs">
       <DependentUpon>Myconexion.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\ProduccionCLS.cs" />
     <Compile Include="Models\ProductosCLS.cs" />
     <Compile Include="Models\Proveedores.cs">
       <DependentUpon>Myconexion.tt</DependentUpon>
@@ -254,6 +257,9 @@
     <Content Include="Views\Empleados\Index.cshtml" />
     <Content Include="Views\Empleados\_TablaEmpleados.cshtml" />
     <Content Include="Views\Productos\Index.cshtml" />
+    <Content Include="Views\Produccion\Produccion.cshtml" />
+    <Content Include="Views\Produccion\Index.cshtml" />
+    <Content Include="Views\Produccion\_TablaProduccion.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

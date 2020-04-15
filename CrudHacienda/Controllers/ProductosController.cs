@@ -142,6 +142,7 @@ namespace CrudHacienda.Controllers
 
             return respuesta;
         }
+
         /*Metodo que recupera los datos exixtentes de acuerdo al registro seleccionado*/
         public JsonResult RecuperarProductos(int IdProductos)
         {                                   //La variable Productos es enviada desde la clase Editar en el index
@@ -159,16 +160,24 @@ namespace CrudHacienda.Controllers
         /*------***============***------*/
 
         /*Eliminar productos*/
-        public ActionResult ELiminarProductos(int id)
+        public int EliminarRegistro(int idproducto)
         {
-            using (var db = new MyonexionEntities())
+            int respuesta = 0;
+            try
             {
-                MisProductos pro = db.MisProductos.Where(p => p.IdProducto.Equals(id)).First();
-                pro.Estado = 0;
-                db.SaveChanges();
+                using (var db = new MyonexionEntities())
+                {
+                    MisProductos pro = db.MisProductos.Where(p => p.IdProducto == idproducto).First();
+                    pro.Estado = 0;
+                    respuesta = db.SaveChanges();
+                }
             }
-            return RedirectToAction("Productos");
+            catch (Exception ex)
+            {
+
+                respuesta = 0;
+            }
+            return respuesta;
         }
-   
     }
 }

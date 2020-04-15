@@ -18,6 +18,7 @@
                 </button>
                 @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
+
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Home", "Index", "Home")</li>
@@ -25,6 +26,14 @@
                     <li>@Html.ActionLink("Proveedores", "ListaProveedores", "Proveedores")</li>
                     <li>@Html.ActionLink("Productos", "Index", "Productos")</li>
                     <li>@Html.ActionLink("Empleados", "Index", "Empleados")</li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Fila</a>
+                        <ul class="dropdown-menu collapse nav">
+                            <li>@Html.ActionLink("Productos", "Index", "Productos")</li>
+                            <li>@Html.ActionLink("Empleados", "Index", "Empleados")</li>
+                        </ul>
+                        <!--===========================================================-->
+                    </li>
                 </ul>
             </div>
         </div>

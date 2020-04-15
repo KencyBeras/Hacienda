@@ -1,0 +1,191 @@
+﻿@model IEnumerable<CrudHacienda.Models.ProduccionCLS>
+@{
+    ViewBag.Title = "Produccion";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    List<SelectListItem> listaEmpleado = (List<SelectListItem>)ViewBag.FlistaEmpleado;
+    List<SelectListItem> listaProducto = (List<SelectListItem>)ViewBag.listaProducto;
+    List<SelectListItem> listaProveedor = (List<SelectListItem>)ViewBag.listaProveedor;
+}
+
+<h2>Produccin Diaria</h2>
+
+<!-- Button trigger modal -->
+<div class="row form-group">
+    <div class=" col-xs-8 col-lg-11 ">
+        <button type="button" onclick="LanzarModalP()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Venta</button>
+    </div>
+    <div class="col-xs-4 col-lg-1">
+        @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
+    </div>
+</div>
+<!---------------------===================================-------------------->
+@using (Ajax.BeginForm("FiltroProduccion", "", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "DivPagina",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmsearch" }))
+{
+    <div class="row form-group">
+        <div class="col-md-4 col-md-offset-8 text-center">
+            <h5>FILTRAR POR FECHA</h5>
+        </div>
+        <div class="col-md-2 col-md-offset-8">
+            <span>Desde</span>
+            <div class="">
+                @Html.Editor("FechaInicio", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            </div>
+        </div>
+        <div class="col-md-2">
+            <span>Hasta</span>
+            <div class="">
+                @Html.Editor("FechaFin", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+            </div>
+        </div>
+    </div>
+    <!--Filtrar por fecha-->
+    <br />
+    <div class="form-horizontal">
+        <div id="DivPagina" class="">
+            @Html.Partial("_TablaProduccion", Model)
+        </div>
+    </div>
+}
+
+<!-- Modal: Esta ventana nos abrra un formulario flotante para agregar -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Producto</h5>
+            </div>
+            @using (Ajax.BeginForm("ProducciondelDia", "Produccion", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "error",
+                InsertionMode = InsertionMode.Replace,
+                OnSuccess = "ProduccioindeHoy"//La accion que va a ir la informacion que enviemos
+            }))
+            {
+                @Html.Hidden("Titulo")
+                //Variable oculto
+                <div class="modal-body">
+                    <!--====================================-->
+                    <div class="form-group">
+                        @Html.DropDownList("IdProducto", listaProducto, new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" id="Unidad" name="unidad">
+                            <option value="">Medida liquida (Seleccionar...)</option>
+                            <option value="Litros">Litros</option>
+                            <option value="Botella">Botellas</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" id="Turno" name="Turno">
+                            <option value="">Turno (Seleccionar...)</option>
+                            <option value="Madrugada">Madrugada</option>
+                            <option value="Tarde">Tarde</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <select class="form-control" id="EstadoFacturacion" name="EstadoFacturacion">
+                            <option value="">Estado Facturacion (Seleccionar...)</option>
+                            <option value=1>Credito</option>
+                            <option value=2>Efectivo</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.DropDownList("Proveedor", listaProveedor, new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.DropDownList("Despachado", listaEmpleado, new { @class = "form-control" })
+                    </div>
+
+
+                    <div class="form-group">
+                        @Html.Editor("Cantidad", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Editor("PrecioVenta", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.Editor("FechaProduccion", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                    </div>
+                    <!--====================================-->
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            }
+            <div id="error"></div><!--En este div saldran los errores que son atrapados en el try-->
+        </div>
+    </div>
+</div>
+<!--End Modal-->
+
+<script>
+  
+    var Busqueda = document.getElementById("Busqueda");
+    var FechaInicio = document.getElementById("FechaInicio");
+    var FechaFin = document.getElementById("FechaFin");
+    FechaFin.onchange = function ()
+    {
+        $("#frmsearch").trigger("submit");
+    }
+
+    function Limpiar() {
+        document.getElementById("error").innerHTML = "";
+        var controles = document.getElementsByClassName("form-control");
+        var control;
+        for (var i = 0; i < controles.length; i++) {
+            controles[i].value = "";//forma2
+        }
+    }
+
+    function LanzarModalP() {
+        //From btn Agregar
+        Limpiar();
+        document.getElementById("Titulo").value = -1;
+    }
+
+    //function LanzarModal(idproducto) {
+    //    document.getElementById("Titulo").value = idproducto;
+
+    //}
+
+    //function Editar(IdProducto) {
+    //    Limpiar();
+    //    $.get("Productos/RecuperarProductos/?IdProductos=" + IdProducto, function (data) {
+    //        document.getElementById("Producto").value = data.Producto;
+    //        document.getElementById("Descripcion").value = data.Descripcion;
+    //        document.getElementById("Estado").value = data.Estado;
+    //        document.getElementById("FechaCreacion").value = data.FechaCreacion;
+    //    })
+
+    //    document.getElementById("Titulo").value = IdProducto;
+    //}
+
+    function ProduccioindeHoy(res) {
+        if (res >= "1") {
+            $("#frmsearch").trigger("submit");
+            document.getElementById("btnclose").click();
+            alert("Se guardaron los datos correctamente");
+        }
+        else {
+            alert("Ha ocurrido un error, verifique que los datos esten correctos...");
+        }
+    }
+</script>
+
+
+
+

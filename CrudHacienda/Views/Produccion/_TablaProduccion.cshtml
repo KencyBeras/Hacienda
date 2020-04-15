@@ -1,0 +1,101 @@
+﻿@model IEnumerable<CrudHacienda.Models.ProduccionCLS>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table table-striped">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Fecha)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Producto)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Turno)
+        </th>
+        <th>
+            <span>Estado</span>
+        </th>
+        <th>
+            <span>Proveedor</span>
+        </th>
+        <th>
+            <span>Empleado</span>
+        </th>
+        <th>
+            <span>Unidades</span>
+        </th>
+        <th>
+            <span>P. Venta</span>
+        </th>
+        <th>
+            <span>T. Venta</span>
+        </th>
+        <th>
+            <span>Acciones</span>
+        </th>
+    </tr>
+
+@foreach (var item in Model)
+{
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Fecha)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Producto)
+        </td>
+        <td class=" text-center">
+            @*@Html.DisplayFor(modelItem => item.Turno)*@
+            @{ 
+                if (item.Turno == "Madrugada")
+                {
+                    <span class="label label-default">Matutino</span>
+
+                }
+                else {
+
+                    <span class="label label-info">Vespertino</span>
+
+                }
+
+            }
+        </td>
+        <td>
+            <!--Condicion para sustituir M o m -> Masculino-->
+            @{ if (item.EstadoFacturacion == 1)
+                {
+                    <span class="label label-warning">Credito</span>
+                    //http://jquery-manual.blogspot.com/2014/02/clases-para-aplicar-color-los-textos-y.html
+                }
+                <!--Condicion para sustituir F o f -> Femenino-->
+                if (item.EstadoFacturacion == 2)
+                {
+                    <span class="label label-success" >Contado</span>
+                }
+                //Fin de la condicion
+            }
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.AProveedor)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ElEmpleado)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UndsDespachadas)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PrecioVenta)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TotalVenta)
+        </td>
+
+        <td>
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+    </tr>
+}
+
+</table>
