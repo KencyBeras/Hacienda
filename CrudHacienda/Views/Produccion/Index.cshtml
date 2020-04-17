@@ -11,11 +11,14 @@
 
 <!-- Button trigger modal -->
 <div class="row form-group">
-    <div class=" col-xs-8 col-lg-11 ">
+    <div class=" col-xs-6 col-lg-8 ">
         <button type="button" onclick="LanzarModalP()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Venta</button>
     </div>
-    <div class="col-xs-4 col-lg-1">
+    <div class="col-xs-3 col-lg-1">
         @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
+    </div>
+    <div class="col-xs-3 col-lg-3">
+        @Html.ActionLink(" ", "GenerarPDF", "Produccion", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-print",@target="_blank" })
     </div>
 </div>
 <!---------------------===================================-------------------->
@@ -39,7 +42,7 @@
         <div class="col-md-2">
             <span>Hasta</span>
             <div class="">
-                @Html.Editor("FechaFin", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
+                @Html.Editor("FechaFin", null, new { htmlAttributes = new { @class = "form-control", @type = "date", value = System.DateTime.Today.ToShortDateString() } })
             </div>
         </div>
     </div>
@@ -162,17 +165,23 @@
 
     //}
 
-    //function Editar(IdProducto) {
-    //    Limpiar();
-    //    $.get("Productos/RecuperarProductos/?IdProductos=" + IdProducto, function (data) {
-    //        document.getElementById("Producto").value = data.Producto;
-    //        document.getElementById("Descripcion").value = data.Descripcion;
-    //        document.getElementById("Estado").value = data.Estado;
-    //        document.getElementById("FechaCreacion").value = data.FechaCreacion;
-    //    })
+    function Editar(idprod) {
+        Limpiar();
+        $.get("Produccion/DatosProduccion/?produccion=" + idprod, function (data) {
+            document.getElementById("IdProduccion").value = data.IdProduccion;
+            document.getElementById("IdProducto").value = data.IdProducto;
+            document.getElementById("Unidad").value = data.Unidad;
+            document.getElementById("Turno").value = data.Turno;
+            document.getElementById("EstadoFacturacion ").value = data.EstadoFacturacion;
+            document.getElementById("Proveedor").value = data.Proveedor;
+            document.getElementById("Despachado").value = data.Despachado;
+            document.getElementById("Cantidad").value = data.Cantidad;
+            document.getElementById("PrecioVenta").value = data.PrecioVenta;
+            document.getElementById("FechaProduccion").value = data.FechaProduccion;
+        })
 
-    //    document.getElementById("Titulo").value = IdProducto;
-    //}
+        document.getElementById("Titulo").value = idprod;
+    }
 
     function ProduccioindeHoy(res) {
         if (res >= "1") {

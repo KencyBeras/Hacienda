@@ -6,6 +6,9 @@
 <table class="table table-striped">
     <tr>
         <th>
+            <span>ID</span>
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Fecha)
         </th>
         <th>
@@ -41,6 +44,10 @@
 {
     <tr>
         <td>
+            @Html.DisplayFor(modelItem => item.IdProduccion)
+        </td>
+
+        <td>
             @Html.DisplayFor(modelItem => item.Fecha)
         </td>
         <td>
@@ -48,13 +55,14 @@
         </td>
         <td class=" text-center">
             @*@Html.DisplayFor(modelItem => item.Turno)*@
-            @{ 
+            @{
                 if (item.Turno == "Madrugada")
                 {
                     <span class="label label-default">Matutino</span>
 
                 }
-                else {
+                else
+                {
 
                     <span class="label label-info">Vespertino</span>
 
@@ -72,7 +80,7 @@
                 <!--Condicion para sustituir F o f -> Femenino-->
                 if (item.EstadoFacturacion == 2)
                 {
-                    <span class="label label-success" >Contado</span>
+                    <span class="label label-success">Contado</span>
                 }
                 //Fin de la condicion
             }
@@ -94,7 +102,9 @@
         </td>
 
         <td>
+            <button type="button" onclick="Editar(@item.IdProduccion)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal"> </button>
             @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+        </td>
     </tr>
 }
 
