@@ -132,28 +132,30 @@ namespace CrudHacienda.Controllers
            // List<ProduccionCLS> ListaProduccion = new List<ProduccionCLS>();
             ListaEmpleados();
             ListaPP();
+            List<ProduccionCLS> ListaProduccion = new List<ProduccionCLS>();
             using (var db = new MyonexionEntities())
             {
-               var ListaProduccion = (from prod in db.Produccion
-                                        join detprod in db.DetalleProduccion on prod.IdProduccion equals detprod.IdProduccion
-                                        join emp in db.Empleados on prod.Despachado equals emp.IdEmpleado
-                                        join prov in db.Proveedores on prod.Proveedor equals prov.IdProveedor
-                                        join product in db.MisProductos on prod.IdProducto equals product.IdProducto 
-                                        select new ProduccionCLS
-                                        {
-                                           IdProduccion = prod.IdProduccion,
-                                           Fecha = detprod.FechaProduccion,
-                                           Producto = product.Producto,
-                                           Turno = prod.Turno,
-                                           EstadoFacturacion = prod.EstadoFacturacion,
-                                           AProveedor = prov.NombreProveedor + " " + prov.SegundoNombre,
-                                           ElEmpleado = emp.Nombre + " " + emp.Apellidos,
-                                           UndsDespachadas = detprod.Cantidad + " " + prod.Unidad,//ojo con eso
-                                           PrecioVenta = detprod.PrecioVenta,
-                                           TotalVenta = detprod.TotalVenta
+               ListaProduccion = (from prod in db.Produccion
+                                  join detprod in db.DetalleProduccion on prod.IdProduccion equals detprod.IdProduccion
+                                  join emp in db.Empleados on prod.Despachado equals emp.IdEmpleado
+                                  join prov in db.Proveedores on prod.Proveedor equals prov.IdProveedor
+                                  join product in db.MisProductos on prod.IdProducto equals product.IdProducto 
+                                  select new ProduccionCLS
+                                  {
+                                     IdProduccion = prod.IdProduccion,
+                                     Fecha = detprod.FechaProduccion,
+                                     Producto = product.Producto,
+                                     Turno = prod.Turno,
+                                     EstadoFacturacion = prod.EstadoFacturacion,
+                                     AProveedor = prov.NombreProveedor + " " + prov.SegundoNombre,
+                                     ElEmpleado = emp.Nombre + " " + emp.Apellidos,
+                                     UndsDespachadas = detprod.Cantidad + " " + prod.Unidad,//ojo con eso
+                                     PrecioVenta = detprod.PrecioVenta,
+                                     TotalVenta = detprod.TotalVenta
+                                  
+                                  }).ToList();
 
-                                        }).ToList();
-
+                Session["ListaU"] = ListaProduccion;
                 return View(ListaProduccion);
             }
         }

@@ -6,17 +6,6 @@
 
 <h2>Mis Productos</h2>
 
-<!-- Button trigger modal -->
-<div class="row form-group">
-    <div class=" col-xs-8 col-lg-11 ">
-        <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Nuevo Producto</button>
-    </div>
-    <div class="col-xs-4 col-lg-1">
-        @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
-    </div>
-</div>
-
-<!---------------------===================================-------------------->
 @using (Ajax.BeginForm("Fproductos", "", new AjaxOptions
 {
     HttpMethod = "POST",
@@ -24,13 +13,27 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmsearch" }))
 {
-    <div>
-        <div class=" col-md-offset-8">
+    <div class="row">
+        <div class=" col-md-5 col-lg-5 form-group">
+            <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#ProductosModal">Nuevo Producto</button>
+        </div>
+        <div class="col-xs-8 col-md-5 col-lg-5 form-group">
             @Html.TextBox("Busqueda", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
             @*Este Texbox es el que nos permite realizar las busquedas especificas de usuarios(Filtros)*@
         </div>
+        <div class="col-xs-4 col-md-2 col-lg-2 form-group ">
+            <div class=" col-xs-4 col-lg-4">
+                @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-home" })
+            </div>
+            <div class="col-xs-4 col-lg-4">
+                @Html.ActionLink(" ", "generarEXCEL", "Productos", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-save-file", @alt = "Reporte" })
+            </div>
+            <div class="col-xs-4 col-lg-4">
+                @Html.ActionLink(" ", "imprimirPDF", "Productos", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-print", @alt = "Reporte" })
+            </div>
+        </div>
     </div>
-    <br />
+    <!--==================-->
     <div class="form-horizontal">
         <div id="DivPagina" class="">
             @Html.Partial("_TablaProductos", Model)
@@ -44,13 +47,13 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar registro</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Registro</h5>
             </div>
             <div class="modal-body">
                 Seguro que desea eliminar el registro?
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnCerrarConf" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btnCerrarConf" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="EliminarRegistro()" class="btn btn-primary">Aceptar</button>
             </div>
         </div>
@@ -58,11 +61,11 @@
 </div>
 
 <!-- Modal: Esta ventana nos abrra un formulario flotante para agregar -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ProductosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Producto</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Productos</h5>
             </div>
             @using (Ajax.BeginForm("AgregarProductos", "Productos", null, new AjaxOptions
             {
@@ -107,10 +110,9 @@
 <!--End Modal-->
 
 <script>
-    function EliminarRegistro()
-    {
-        var fidproducto = document.getElementById("Titulo").value;
-        $.get("Productos/EliminarRegistro/?idproducto=" + fidproducto, function (data) {
+    function EliminarRegistro() {
+        var findproducto = document.getElementById("Titulo").value;
+        $.get("Productos/EliminarRegistro/?idproducto=" + findproducto, function (data) {
             if (data == 1) {
                 alert("La accion se ejecuto correctamente...");
                 $("#frmsearch").trigger("submit");
@@ -119,16 +121,16 @@
             else
             {
                 alert("Ocurrio un error al momnto de eliminar el registro");
-
             }
         })
-        
     }
-
-    var Busqueda = document.getElementById("Busqueda");
-    Busqueda.onkeyup = function () {
+/*End eliminar registro*/
+    var Buscar = document.getElementById("Busqueda");
+    Buscar.onkeyup = function () {
         $("#frmsearch").trigger("submit");
-    } 
+     /*Asigna lo que se encentra en el TexBox Busqueda a la variable
+     Buscar y refresca el formulario de manera asincrona*/
+    }
 
     function Limpiar() {
         document.getElementById("error").innerHTML = "";
@@ -139,16 +141,16 @@
         }
     }
 
-    function Agregar() {
-        //From btn Agregar
+    function Agregar()
+    {
         Limpiar();
         document.getElementById("Titulo").value = -1;
+     /*Asigna el valor (-1) al texbox Titulo el cual lo envia al controlador*/
     }
 
-    function LanzarModal(idproducto)
-    {
-        document.getElementById("Titulo").value = idproducto;
-
+    function LanzarModalEliminar(idproducto) {
+        //Llama el modal que realizara la accin eliminar
+        document.getElementById("Titulo").value = idproducto; 
     }
 
     function Editar(IdProducto) {
@@ -159,20 +161,27 @@
             document.getElementById("Estado").value = data.Estado;
             document.getElementById("FechaCreacion").value = data.FechaCreacion;
         })
-
         document.getElementById("Titulo").value = IdProducto;
+     /*Recupera los datos del registro especificado y los asigna a cada texbox, mediante
+     la funcion (RecuperarProductos)*/
     }
 
     function AgregarProductos(res) {
-        if (res == "1") {
+/*Recibe un parametro respuesta desde el controlador y de acuerdo a su valor realiza las accines*/
+        if (res >= "0") {
             $("#frmsearch").trigger("submit");
             document.getElementById("btnclose").click();
             alert("Se guardaron los datos correctamente");
+         //Si >=0, realiza el almacenamiento de manera asincrona, cierra el formulario y envia un alert.
         }
         else {
+            if (res == "-1")
+            {
+                alert("Ya existe un registro con este valor...");
+            }
+            //Si es diferente es un error por lo tanto envia un alert
             alert("Ha ocurrido un error, verifique que los datos esten correctos...");
         }
-
     }
 </script>
 
