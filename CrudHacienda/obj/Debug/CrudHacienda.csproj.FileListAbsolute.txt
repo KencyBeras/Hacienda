@@ -84,3 +84,9 @@ C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\roslyn\System.Th
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\EPPlus.dll
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\EPPlus.xml
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Debug\CrudHacienda.csprojAssemblyReference.cache
+C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\System.Net.Http.Formatting.dll
+C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\System.Web.Http.dll
+C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\System.Web.Http.WebHost.dll
+C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\System.Net.Http.Formatting.xml
+C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\System.Web.Http.xml
+C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\System.Web.Http.WebHost.xml

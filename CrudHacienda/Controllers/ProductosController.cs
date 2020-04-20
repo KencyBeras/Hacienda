@@ -10,9 +10,11 @@ using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CrudHacienda.Filtros;
 
 namespace CrudHacienda.Controllers
 {
+    [Acceder]
     public class ProductosController : Controller
     {
         //Generar un reporte en pdf
@@ -229,6 +231,7 @@ namespace CrudHacienda.Controllers
                         if (Titulo.Equals(-1))
                         {
                             NumRegExtt = db.MisProductos.Where(p => p.Producto == PCLS.Producto).Count();
+                            //Validando que no haya un registro igual al que se va a insertar
                             if (NumRegExtt >= 1)
                             {
                                 respuesta = "-1";

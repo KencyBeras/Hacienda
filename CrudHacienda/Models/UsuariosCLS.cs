@@ -22,7 +22,6 @@ namespace CrudHacienda.Models
         public string Contrasena { get; set; }
         /*-----------*/
         [Display(Name = "Tipo Usuario")]
-        [Required]
         public string TipoUsuario { get; set; }
         /*-----------*/
         [Required(ErrorMessage ="El codigo del empleado es necesario")]

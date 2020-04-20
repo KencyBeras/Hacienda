@@ -26,10 +26,10 @@
                 @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-home" })
             </div>
             <div class="col-xs-4 col-lg-4">
-                @Html.ActionLink(" ", "generarEXCEL", "Productos", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-save-file", @alt = "Reporte" })
+                @Html.ActionLink(" ", "generarEXCEL", "Productos", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-save-file" })
             </div>
             <div class="col-xs-4 col-lg-4">
-                @Html.ActionLink(" ", "imprimirPDF", "Productos", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-print", @alt = "Reporte" })
+                @Html.ActionLink(" ", "imprimirPDF", "Productos", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-print" })
             </div>
         </div>
     </div>
@@ -144,6 +144,7 @@
     function Agregar()
     {
         Limpiar();
+        //document.getElementById("error").innerHTML = "";
         document.getElementById("Titulo").value = -1;
      /*Asigna el valor (-1) al texbox Titulo el cual lo envia al controlador*/
     }
@@ -168,19 +169,22 @@
 
     function AgregarProductos(res) {
 /*Recibe un parametro respuesta desde el controlador y de acuerdo a su valor realiza las accines*/
-        if (res >= "0") {
+        if (res == "1" || res == "0") {
             $("#frmsearch").trigger("submit");
             document.getElementById("btnclose").click();
             alert("Se guardaron los datos correctamente");
          //Si >=0, realiza el almacenamiento de manera asincrona, cierra el formulario y envia un alert.
         }
-        else {
-            if (res == "-1")
-            {
+        else
+        {
+            if (res == "-1") {
                 alert("Ya existe un registro con este valor...");
             }
-            //Si es diferente es un error por lo tanto envia un alert
-            alert("Ha ocurrido un error, verifique que los datos esten correctos...");
+            else
+            {
+                //Si es diferente es un error por lo tanto envia un alert
+                alert("Ha ocurrido un error, verifique que los datos esten correctos...");
+            }
         }
     }
 </script>

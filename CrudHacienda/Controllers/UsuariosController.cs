@@ -6,9 +6,12 @@ using System.Web;
 using System.Web.Mvc;
 using CrudHacienda.Models;
 using System.Text;
+using CrudHacienda.Filtros;
 
 namespace CrudHacienda.Controllers
 {
+    [Acceder]
+
     public class UsuariosController : Controller
     {
         /*Metodo que lista los empleados existentes en mi db,Con este metodo se crea 
@@ -43,7 +46,7 @@ namespace CrudHacienda.Controllers
                                                  {
                                                      IdUsuario = RVU.IdUsuario,
                                                      NombreUsuario = RVU.NombreUsuario,
-                                                     TipoUsuario = RVU.TipoUsuario,
+                                                     TipoUsuario = RVU.TipoUsuario.ToString(),
                                                      CodigoEmpleado = RVU.CodEmpleado
 
                                                  }).ToList();
@@ -68,7 +71,7 @@ namespace CrudHacienda.Controllers
                                                         {
                                                             IdUsuario = RVU.IdUsuario,
                                                             NombreUsuario = RVU.NombreUsuario,
-                                                            TipoUsuario = RVU.TipoUsuario,
+                                                            TipoUsuario = RVU.TipoUsuario.ToString(),
                                                             CodigoEmpleado = RVU.CodEmpleado
                                                         }).ToList();
 
@@ -82,7 +85,7 @@ namespace CrudHacienda.Controllers
                                                         {
                                                             IdUsuario = RVU.IdUsuario,
                                                             NombreUsuario= RVU.NombreUsuario,
-                                                            TipoUsuario = RVU.TipoUsuario,
+                                                            TipoUsuario = RVU.TipoUsuario.ToString(),
                                                             CodigoEmpleado = RVU.CodEmpleado
                                                         }).ToList();
 
@@ -132,7 +135,7 @@ namespace CrudHacienda.Controllers
                             string fclavecifrado = BitConverter.ToString(byclavecifrado).Replace("-", "");
                             /*Clave cifrada*/
                             user.Contrasena = fclavecifrado;
-                            user.TipoUsuario = ucls.TipoUsuario;
+                            user.TipoUsuario = int.Parse(ucls.TipoUsuario);
                             user.CodEmpleado = ucls.CodigoEmpleado;
                             db.Usuario.Add(user);
                             respuesta = db.SaveChanges().ToString();
@@ -150,7 +153,7 @@ namespace CrudHacienda.Controllers
                             string fclavecifrado = BitConverter.ToString(byclavecifrado).Replace("-", "");
                             /*Clave cifrada*/
                             user.Contrasena = fclavecifrado;
-                            user.TipoUsuario = ucls.TipoUsuario;
+                            user.TipoUsuario = int.Parse(ucls.TipoUsuario);
                             user.CodEmpleado = ucls.CodigoEmpleado;
                             respuesta = db.SaveChanges().ToString();
                         }
@@ -177,7 +180,7 @@ namespace CrudHacienda.Controllers
                 Usuario user = db.Usuario.Where(p => p.IdUsuario == idusuario).First();
                 ucls.NombreUsuario = user.NombreUsuario;
                 ucls.Contrasena = user.Contrasena;
-                ucls.TipoUsuario = user.TipoUsuario;
+                ucls.TipoUsuario = user.TipoUsuario.ToString();
                 ucls.CodigoEmpleado = user.CodEmpleado;
             }
 

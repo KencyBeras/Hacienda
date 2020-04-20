@@ -4,23 +4,28 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="5cc9fc2ed3b94aaba46096fb2f6b2e4e" Name="Diagram1">
-        <EntityTypeShape EntityType="HaciendaModel.DetalleProduccion" Width="1.5" PointX="7.5" PointY="1.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HaciendaModel.Empleados" Width="1.5" PointX="3" PointY="1" IsExpanded="true" />
-        <EntityTypeShape EntityType="HaciendaModel.EstadoEmpleado" Width="1.5" PointX="0.75" PointY="2.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HaciendaModel.MisProductos" Width="1.5" PointX="3" PointY="6.125" IsExpanded="true" />
-        <EntityTypeShape EntityType="HaciendaModel.Produccion" Width="1.5" PointX="5.25" PointY="1.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="HaciendaModel.Proveedores" Width="1.5" PointX="3" PointY="9.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="HaciendaModel.Puestos" Width="1.5" PointX="0.75" PointY="4" IsExpanded="true" />
-        <EntityTypeShape EntityType="HaciendaModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="5.75" IsExpanded="true" />
-        <EntityTypeShape EntityType="HaciendaModel.Usuarios" Width="1.5" PointX="7.75" PointY="4.75" IsExpanded="true" />
-        <AssociationConnector Association="HaciendaModel.FK__DetallePr__IdPro__403A8C7D" ManuallyRouted="false" />
-        <AssociationConnector Association="HaciendaModel.FK__Empleados__Puest__2E1BDC42" ManuallyRouted="false" />
-        <AssociationConnector Association="HaciendaModel.FK__Produccio__Despa__3C69FB99" ManuallyRouted="false" />
-        <AssociationConnector Association="HaciendaModel.FK_EmpEstado" ManuallyRouted="false" />
-        <AssociationConnector Association="HaciendaModel.FK__Produccio__IdPro__3B75D760" ManuallyRouted="false" />
-        <AssociationConnector Association="HaciendaModel.FK__Produccio__Prove__3A81B327" ManuallyRouted="false" />
-        <EntityTypeShape EntityType="HaciendaModel.Usuario" Width="1.5" PointX="5.375" PointY="8.75" />
+      <Diagram DiagramId="5cc9fc2ed3b94aaba46096fb2f6b2e4e" Name="Diagram1" ZoomLevel="86">
+        <EntityTypeShape EntityType="HaciendaModel.DetalleProduccion" Width="1.5" PointX="7.5" PointY="1.75" />
+        <EntityTypeShape EntityType="HaciendaModel.Empleados" Width="1.5" PointX="3" PointY="1" />
+        <EntityTypeShape EntityType="HaciendaModel.EstadoEmpleado" Width="1.5" PointX="0.75" PointY="6.125" />
+        <EntityTypeShape EntityType="HaciendaModel.MisProductos" Width="1.5" PointX="3" PointY="11.875" />
+        <EntityTypeShape EntityType="HaciendaModel.Pagina" Width="1.5" PointX="5.75" PointY="10.5" />
+        <EntityTypeShape EntityType="HaciendaModel.Produccion" Width="1.5" PointX="5.25" PointY="1.375" />
+        <EntityTypeShape EntityType="HaciendaModel.Proveedores" Width="1.5" PointX="3" PointY="7.375" />
+        <EntityTypeShape EntityType="HaciendaModel.Puestos" Width="1.5" PointX="0.75" PointY="2.125" />
+        <EntityTypeShape EntityType="HaciendaModel.RolPagina" Width="1.5" PointX="8" PointY="6.5" />
+        <EntityTypeShape EntityType="HaciendaModel.sysdiagrams" Width="1.5" PointX="9.75" PointY="0.75" />
+        <EntityTypeShape EntityType="HaciendaModel.TipoUsuario" Width="1.5" PointX="5.75" PointY="7.5" />
+        <EntityTypeShape EntityType="HaciendaModel.Usuario" Width="1.5" PointX="8" PointY="10.125" />
+        <AssociationConnector Association="HaciendaModel.FK__DetallePr__IdPro__403A8C7D" />
+        <AssociationConnector Association="HaciendaModel.FK__Empleados__Puest__2E1BDC42" />
+        <AssociationConnector Association="HaciendaModel.FK__Produccio__Despa__3C69FB99" />
+        <AssociationConnector Association="HaciendaModel.FK_EmpEstado" />
+        <AssociationConnector Association="HaciendaModel.FK__Produccio__IdPro__3B75D760" />
+        <AssociationConnector Association="HaciendaModel.FK__RolPagina__IDPAG__75A278F5" />
+        <AssociationConnector Association="HaciendaModel.FK__Produccio__Prove__3A81B327" />
+        <AssociationConnector Association="HaciendaModel.FK__RolPagina__IDTIP__74AE54BC" />
+        <AssociationConnector Association="HaciendaModel.FK__Usuario__TipoUsu__6FE99F9F" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

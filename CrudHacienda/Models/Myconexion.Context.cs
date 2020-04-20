@@ -29,11 +29,13 @@ namespace CrudHacienda.Models
         public virtual DbSet<Empleados> Empleados { get; set; }
         public virtual DbSet<EstadoEmpleado> EstadoEmpleado { get; set; }
         public virtual DbSet<MisProductos> MisProductos { get; set; }
+        public virtual DbSet<Pagina> Pagina { get; set; }
         public virtual DbSet<Produccion> Produccion { get; set; }
         public virtual DbSet<Proveedores> Proveedores { get; set; }
         public virtual DbSet<Puestos> Puestos { get; set; }
+        public virtual DbSet<RolPagina> RolPagina { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
-        public virtual DbSet<Usuarios> Usuarios { get; set; }
+        public virtual DbSet<TipoUsuario> TipoUsuario { get; set; }
         public virtual DbSet<Usuario> Usuario { get; set; }
     }
 }

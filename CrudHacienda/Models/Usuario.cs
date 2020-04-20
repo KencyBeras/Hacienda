@@ -17,7 +17,9 @@ namespace CrudHacienda.Models
         public int IdUsuario { get; set; }
         public string NombreUsuario { get; set; }
         public string Contrasena { get; set; }
-        public string TipoUsuario { get; set; }
+        public Nullable<int> TipoUsuario { get; set; }
         public int CodEmpleado { get; set; }
+    
+        public virtual TipoUsuario TipoUsuario1 { get; set; }
     }
 }

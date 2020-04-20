@@ -47,6 +47,15 @@
     <Property Name="FechaCreacion" Type="date" Nullable="false" />
     <Property Name="FechaActualizacion" Type="date" />
   </EntityType>
+  <EntityType Name="Pagina">
+    <Key>
+      <PropertyRef Name="IDPAGINA" />
+    </Key>
+    <Property Name="IDPAGINA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MENSAJE" Type="varchar" MaxLength="28" />
+    <Property Name="ACCION" Type="varchar" MaxLength="28" />
+    <Property Name="CONTROLADOR" Type="varchar" MaxLength="28" />
+  </EntityType>
   <EntityType Name="Produccion">
     <Key>
       <PropertyRef Name="IdProduccion" />
@@ -85,6 +94,14 @@
     <Property Name="NomPuesto" Type="varchar" MaxLength="32" Nullable="false" />
     <Property Name="Descripcion" Type="varchar" MaxLength="132" />
   </EntityType>
+  <EntityType Name="RolPagina">
+    <Key>
+      <PropertyRef Name="IIDROLPAGINA" />
+    </Key>
+    <Property Name="IIDROLPAGINA" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="IDTIPOUSUARIO" Type="int" />
+    <Property Name="IDPAGINA" Type="int" />
+  </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
       <PropertyRef Name="diagram_id" />
@@ -95,6 +112,14 @@
     <Property Name="version" Type="int" />
     <Property Name="definition" Type="varbinary(max)" />
   </EntityType>
+  <EntityType Name="TipoUsuario">
+    <Key>
+      <PropertyRef Name="IdTipoUsuario" />
+    </Key>
+    <Property Name="IdTipoUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Privilegios" Type="varchar" MaxLength="28" Nullable="false" />
+    <Property Name="Descripcion" Type="varchar" MaxLength="62" />
+  </EntityType>
   <EntityType Name="Usuario">
     <Key>
       <PropertyRef Name="IdUsuario" />
@@ -102,17 +127,8 @@
     <Property Name="IdUsuario" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="NombreUsuario" Type="varchar" MaxLength="22" Nullable="false" />
     <Property Name="Contrasena" Type="varchar" MaxLength="100" Nullable="false" />
-    <Property Name="TipoUsuario" Type="varchar" MaxLength="24" Nullable="false" />
+    <Property Name="TipoUsuario" Type="int" />
     <Property Name="CodEmpleado" Type="int" Nullable="false" />
-  </EntityType>
-  <EntityType Name="Usuarios">
-    <Key>
-      <PropertyRef Name="Usuario" />
-    </Key>
-    <Property Name="Usuario" Type="varchar" MaxLength="12" Nullable="false" />
-    <Property Name="Clave" Type="varchar" MaxLength="255" />
-    <Property Name="Permisos" Type="varchar" MaxLength="16" Nullable="false" />
-    <Property Name="CodEmpleado" Type="int" />
   </EntityType>
   <Association Name="FK__DetallePr__IdPro__403A8C7D">
     <End Role="Produccion" Type="Self.Produccion" Multiplicity="0..1" />
@@ -174,6 +190,42 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK__RolPagina__IDPAG__75A278F5">
+    <End Role="Pagina" Type="Self.Pagina" Multiplicity="0..1" />
+    <End Role="RolPagina" Type="Self.RolPagina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Pagina">
+        <PropertyRef Name="IDPAGINA" />
+      </Principal>
+      <Dependent Role="RolPagina">
+        <PropertyRef Name="IDPAGINA" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__RolPagina__IDTIP__74AE54BC">
+    <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="0..1" />
+    <End Role="RolPagina" Type="Self.RolPagina" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoUsuario">
+        <PropertyRef Name="IdTipoUsuario" />
+      </Principal>
+      <Dependent Role="RolPagina">
+        <PropertyRef Name="IDTIPOUSUARIO" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Usuario__TipoUsu__6FE99F9F">
+    <End Role="TipoUsuario" Type="Self.TipoUsuario" Multiplicity="0..1" />
+    <End Role="Usuario" Type="Self.Usuario" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TipoUsuario">
+        <PropertyRef Name="IdTipoUsuario" />
+      </Principal>
+      <Dependent Role="Usuario">
+        <PropertyRef Name="TipoUsuario" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_EmpEstado">
     <End Role="EstadoEmpleado" Type="Self.EstadoEmpleado" Multiplicity="1" />
     <End Role="Empleados" Type="Self.Empleados" Multiplicity="*" />
@@ -191,12 +243,14 @@
     <EntitySet Name="Empleados" EntityType="Self.Empleados" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="EstadoEmpleado" EntityType="Self.EstadoEmpleado" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MisProductos" EntityType="Self.MisProductos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Pagina" EntityType="Self.Pagina" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Produccion" EntityType="Self.Produccion" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Proveedores" EntityType="Self.Proveedores" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Puestos" EntityType="Self.Puestos" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="RolPagina" EntityType="Self.RolPagina" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="TipoUsuario" EntityType="Self.TipoUsuario" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="Usuario" EntityType="Self.Usuario" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="Usuarios" EntityType="Self.Usuarios" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK__DetallePr__IdPro__403A8C7D" Association="Self.FK__DetallePr__IdPro__403A8C7D">
       <End Role="Produccion" EntitySet="Produccion" />
       <End Role="DetalleProduccion" EntitySet="DetalleProduccion" />
@@ -216,6 +270,18 @@
     <AssociationSet Name="FK__Produccio__Prove__3A81B327" Association="Self.FK__Produccio__Prove__3A81B327">
       <End Role="Proveedores" EntitySet="Proveedores" />
       <End Role="Produccion" EntitySet="Produccion" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RolPagina__IDPAG__75A278F5" Association="Self.FK__RolPagina__IDPAG__75A278F5">
+      <End Role="Pagina" EntitySet="Pagina" />
+      <End Role="RolPagina" EntitySet="RolPagina" />
+    </AssociationSet>
+    <AssociationSet Name="FK__RolPagina__IDTIP__74AE54BC" Association="Self.FK__RolPagina__IDTIP__74AE54BC">
+      <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+      <End Role="RolPagina" EntitySet="RolPagina" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Usuario__TipoUsu__6FE99F9F" Association="Self.FK__Usuario__TipoUsu__6FE99F9F">
+      <End Role="TipoUsuario" EntitySet="TipoUsuario" />
+      <End Role="Usuario" EntitySet="Usuario" />
     </AssociationSet>
     <AssociationSet Name="FK_EmpEstado" Association="Self.FK_EmpEstado">
       <End Role="EstadoEmpleado" EntitySet="EstadoEmpleado" />
