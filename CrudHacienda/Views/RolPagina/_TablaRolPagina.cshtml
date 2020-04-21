@@ -1,0 +1,45 @@
+﻿@model IEnumerable<CrudHacienda.Models.RolPaginaCLS>
+
+<table class="table">
+    <br />
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IIDROLPAGINA)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.TipoUsuario)
+        </th>
+
+        <th>
+            <span>Accede</span>
+        </th>
+
+        <th>
+            Acciones
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IIDROLPAGINA)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.TipoUsuario)
+            </td>
+
+            <td>
+                @Html.DisplayFor(modelItem => item.Pagina)
+            </td>
+            <td>
+                <button type="button" onclick="Editar(@item.IIDROLPAGINA)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal"> </button>
+                <button type="button" onclick="LlamarModal(@item.IIDROLPAGINA)" class="btn btn-danger btn-xs glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalEliminar"> </button>
+            </td>
+        </tr>
+    }
+
+</table>
+

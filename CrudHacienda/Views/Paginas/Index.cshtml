@@ -1,0 +1,114 @@
+﻿@model IEnumerable<CrudHacienda.Models.PaginasCLS>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Paginas</h2>
+<!-- Button trigger modal -->
+@using (Ajax.BeginForm("FiltroPagina", "Paginas", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "DivPagina",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmpagina" }))
+{
+    <div class="row">
+        <div class=" col-md-10 form-group">
+            <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#PaginaModal">Agregar Pagina</button>
+        </div>
+        <div class="col-xs-2 form-group ">
+            <div class="">
+                @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn btn-warning btn-sm glyphicon glyphicon-home" })
+            </div>
+        </div>
+    </div>
+    <!--==================-->
+    <div class="form-horizontal">
+        <div id="DivPagina" class="">
+            @Html.Partial("_TablaPagina", Model)
+        </div>
+    </div>
+}
+
+<!-- Modal -->
+<div class="modal fade" id="PaginaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Paginas</h5>
+            </div>
+            @using (Ajax.BeginForm("Agregarpaginas", "Paginas", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "error",
+                InsertionMode = InsertionMode.Replace,
+                OnSuccess = "AgregarPaginas"
+            }))
+            {
+                @Html.Hidden("Titulo")
+                //Variable oculto
+                <div class="modal-body ">
+                    <div class="form-group">
+                        @Html.TextBox("MENSAJE", null, new { @class = "form-control", @placeholder = "Nombre Pagina" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBox("ACCION", null, new { @class = "form-control", @placeholder = "Accion" })
+                    </div>
+                    <div class="form-group">
+                        @Html.TextBox("CONTROLADOR", null, new { @class = "form-control", @placeholder="Controlador" })
+                    </div>
+                </div>
+                <!--Modal footer-->
+                <div class="modal-footer">
+                    <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            }
+            <div id="error"></div><!--En este div saldran los errores que son atrapados en el try-->
+        </div>
+    </div>
+</div>
+
+<script>
+    function Limpiar() {
+        document.getElementById("MENSAJE").value = "";
+        document.getElementById("ACCION").value = "";
+        document.getElementById("CONTROLADOR").value = "";
+        document.getElementById("error").innerHTML = "";
+        //Funcion liempieza de los registros anteriores en el Modal
+    }
+
+    function Agregar() {
+        Limpiar();
+        document.getElementById("Titulo").value = -1;
+    }
+
+    function Editar(idPagina) {
+        Limpiar();
+        $.get("Paginas/RecuperarPagina/?idpagina=" + idPagina, function (data) {
+            document.getElementById("MENSAJE").value = data.MENSAJE;
+            document.getElementById("ACCION").value = data.ACCION;
+            document.getElementById("CONTROLADOR").value = data.CONTROLADOR;
+        })
+
+        document.getElementById("Titulo").value = idPagina;
+    }
+
+    function AgregarPaginas(resultado) {
+        if (resultado == "1") {
+            $("#frmpagina").trigger("submit");
+            document.getElementById("btnclose").click();
+            alert("Se agregaron los datos correctamente!");
+        }
+        else
+        {
+            alert("Ha ocurrido un error, verifique que los datos esten correctos...");
+        }
+    }
+</script>
+
+
+
+

@@ -34,25 +34,48 @@ namespace CrudHacienda.Controllers
             }
         }
 
+        /*Metodo que lista los empleados existentes en mi db,Con este metodo se crea 
+       el select en tablas relacionadas para la insercion de los datos*/
+        public void ListarTipoUsuarios()
+        {
+            List<SelectListItem> Lista;
+            using (var db = new MyonexionEntities())
+            {
+                Lista = (from tipuser in db.TipoUsuario
+                         select new SelectListItem
+                         {
+                             Text = tipuser.Privilegios,//La propiedad Text es loq ue el usuario vera en el Texbox
+                             Value = tipuser.IdTipoUsuario.ToString()//Value es el valor interno que tendra el Texbox, siempre deberia ser el PrimaryKey
+
+                         }).ToList();
+                Lista.Insert(0, new SelectListItem { Text = "Tipo Usuario --Seleccionar--", Value = "" });
+                /*Esta opcion crea un primer registro sin valor el cual se mostrara por defecto en el Texbox*/
+                ViewBag.ListaTipoUsuarios = Lista;
+            }
+        }
+
         //(Index) al momenot de iniacira la App de esta forma aparecera usuarios
         public ActionResult Index()
         {
             ListarEmpleados();
+            ListarTipoUsuarios();
             List<UsuariosCLS> ListaUsuarios = new List<UsuariosCLS>();
             using (var db = new MyonexionEntities())
             {
                 List<UsuariosCLS> FListaUsuarios =(from RVU in db.Usuario
-                                                 select new UsuariosCLS
-                                                 {
-                                                     IdUsuario = RVU.IdUsuario,
-                                                     NombreUsuario = RVU.NombreUsuario,
-                                                     TipoUsuario = RVU.TipoUsuario.ToString(),
-                                                     CodigoEmpleado = RVU.CodEmpleado
+                                                   join tipuser in db.TipoUsuario
+                                                   on RVU.TipoUsuario equals tipuser.IdTipoUsuario
+                                                   join emp in db.Empleados
+                                                   on RVU.CodEmpleado equals emp.IdEmpleado
+                                                   select new UsuariosCLS
+                                                   {
+                                                       IdUsuario = RVU.IdUsuario,
+                                                       NombreUsuario = RVU.NombreUsuario,
+                                                       TipoUsuario = tipuser.Privilegios,
+                                                       Empleado = emp.Nombre + " " + emp.Apellidos
+                                                   }).ToList();
 
-                                                 }).ToList();
-
-                ListaUsuarios.AddRange(FListaUsuarios);
-                                          
+                ListaUsuarios.AddRange(FListaUsuarios);                           
             }
 
                 return View(ListaUsuarios);
@@ -67,12 +90,17 @@ namespace CrudHacienda.Controllers
                 if (Usuario == null)
                 {
                     List<UsuariosCLS> FListaUsuarios = (from RVU in db.Usuario
+                                                        join tipuser in db.TipoUsuario
+                                                        on RVU.TipoUsuario equals tipuser.IdTipoUsuario
+                                                        join emp in db.Empleados
+                                                        on RVU.CodEmpleado equals emp.IdEmpleado
+                                                        where RVU.NombreUsuario.Contains(Usuario)
                                                         select new UsuariosCLS
                                                         {
                                                             IdUsuario = RVU.IdUsuario,
                                                             NombreUsuario = RVU.NombreUsuario,
-                                                            TipoUsuario = RVU.TipoUsuario.ToString(),
-                                                            CodigoEmpleado = RVU.CodEmpleado
+                                                            TipoUsuario = tipuser.Privilegios,
+                                                            Empleado = emp.Nombre + " " + emp.Apellidos
                                                         }).ToList();
 
                     ListaUsuarios.AddRange(FListaUsuarios);
@@ -80,13 +108,17 @@ namespace CrudHacienda.Controllers
                 else
                 {
                     List<UsuariosCLS> FListaUsuarios = (from RVU in db.Usuario
+                                                        join tipuser in db.TipoUsuario
+                                                        on RVU.TipoUsuario equals tipuser.IdTipoUsuario
+                                                        join emp in db.Empleados
+                                                        on RVU.CodEmpleado equals emp.IdEmpleado
                                                         where RVU.NombreUsuario.Contains(Usuario)
                                                         select new UsuariosCLS
                                                         {
                                                             IdUsuario = RVU.IdUsuario,
-                                                            NombreUsuario= RVU.NombreUsuario,
-                                                            TipoUsuario = RVU.TipoUsuario.ToString(),
-                                                            CodigoEmpleado = RVU.CodEmpleado
+                                                            NombreUsuario = RVU.NombreUsuario,
+                                                            TipoUsuario = tipuser.Privilegios,
+                                                            Empleado = emp.Nombre + " " + emp.Apellidos
                                                         }).ToList();
 
                     ListaUsuarios.AddRange(FListaUsuarios);

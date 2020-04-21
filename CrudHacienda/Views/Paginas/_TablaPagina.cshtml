@@ -1,0 +1,41 @@
+﻿@model IEnumerable<CrudHacienda.Models.PaginasCLS>
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.IDPAGINA)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.MENSAJE)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.ACCION)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CONTROLADOR)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.IDPAGINA)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.MENSAJE)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.ACCION)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CONTROLADOR)
+        </td>
+        <td>
+            @Html.ActionLink(" ", "EliminarUsuarios", "Usuarios", new { /* id=item.PrimaryKey */ }, new { @class = "btn btn-danger btn-xs glyphicon glyphicon-trash" })
+            <button type="button" onclick="Editar(@item.IDPAGINA)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#PaginaModal"> </button>
+        </td>
+    </tr>
+}
+
+</table>

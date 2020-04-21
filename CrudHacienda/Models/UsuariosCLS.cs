@@ -27,5 +27,8 @@ namespace CrudHacienda.Models
         [Required(ErrorMessage ="El codigo del empleado es necesario")]
         [Display(Name = "Codigo Empleado")]
         public int CodigoEmpleado { get; set; }
+        /*-----------*/
+        [Display(Name = "Empleado")]
+        public string Empleado { get; set; }
     }
 }

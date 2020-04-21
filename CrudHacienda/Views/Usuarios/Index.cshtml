@@ -4,6 +4,7 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
     List<SelectListItem> listaEmpleados = (List<SelectListItem>)ViewBag.ListaEmpleados;
+    List<SelectListItem> listaTipoUsuarios = (List<SelectListItem>)ViewBag.ListaTipoUsuarios;
 }
 
 <h2>Usuarios del sitema</h2>
@@ -66,9 +67,10 @@
                         @Html.Label("Contrasena")
                         @Html.Password("Contrasena", null, new { @class = "form-control" })
                     </div>
+
                     <div>
-                        @Html.Label("TipoUsuario")
-                        @Html.TextBox("TipoUsuario", null, new { @class = "form-control" })
+                        @Html.Label("Empleado")
+                        @Html.DropDownList("TipoUsuario", listaTipoUsuarios, new { @class = "form-control" })
                     </div>
                     <div>
                         @Html.Label("Empleado")
