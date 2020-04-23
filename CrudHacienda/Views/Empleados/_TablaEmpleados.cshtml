@@ -1,8 +1,7 @@
 ﻿@model IEnumerable<CrudHacienda.Models.EmpleadosCLS>
 
-<table class="table">
-    <br />
-    <tr>
+<table class="table table-striped">
+    <tr class="">
         <th>
             <span>Id</span>
         </th>
@@ -55,11 +54,10 @@
                 @Html.DisplayFor(modelItem => item.Nestado)
             </td>
             <td>
-                <button type="button" onclick="Editar(@item.IdEmpleado)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal"> </button>
-                <button type="button" onclick="LlamarModal(@item.IdEmpleado)" class="btn btn-danger btn-xs glyphicon glyphicon-trash" data-toggle="modal" data-target="#exampleModalEliminar"> </button>
+                <button type="button" onclick="Editar(@item.IdEmpleado)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#EmpleadosModal"> </button>
+                <button type="button" onclick="LlamarModal(@item.IdEmpleado)" class="btn btn-danger btn-xs glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalEliminar"> </button>
             </td>
         </tr>
     }
-
 </table>
  

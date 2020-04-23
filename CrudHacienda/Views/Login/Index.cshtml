@@ -14,6 +14,7 @@
     <!-- Temas-->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
     <!-- se vincula al hoja de estilo para definir el aspecto del formulario de login-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
     <style>
         body {
             font-size: 12px;
@@ -76,19 +77,74 @@
                 </div>
                 <br>
 
-                <button class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" type="submit">Entrar</button>
-                <div class="opcioncontra"><a href="">Olvidaste tu contraseña?</a></div>
-                
+                <button onclick="strspin()"class="btn btn-lg btn-primary btn-block btn-signin" id="IngresoLog" type="submit">Entrar</button>
+
+                <div class="opcioncontra"><a id="btnolvidecontra" data-toggle="modal" data-target="#PaginaModal">Olvidaste tu contraseña?</a></div>
+
+                <div class="text-center">
+                    <br />
+                    <span hidden id="tire"><i class="fa fa-spinner fa-spin" style="font-size:38px"></i></span>
+                </div>
+
                 <div id="DivRespuesta"></div>
             }
         </div>
     </div>
 
-    <script src="~/Scripts/jquery-3.5.0.min.js"></script>
+    <!-- Modal -->
+    <div class="modal fade" id="PaginaModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Paginas</h5>
+                </div>
+                @using (Ajax.BeginForm("RecuperarContra", "Login", null, new AjaxOptions
+                {
+                    HttpMethod = "POST",
+                    UpdateTargetId = "error",
+                    InsertionMode = InsertionMode.Replace,
+                    OnSuccess = "Recuperar"
+                }))
+                {
+                    @Html.Hidden("Titulo")
+                    //Variable oculto
+                    <div class="modal-body ">
+                        <div class="form-group">
+                            @Html.Editor("Correo", null, new { htmlAttributes = new { @class = "form-control", @type = "email" } })
+                        </div>
+                        <div class="form-group">
+                            @Html.TextBox("Cedula", null, new { @class = "form-control", @placeholder = "Cedula" })
+                        </div>
+                    </div>
+                    <!--Modal footer-->
+                    <div class="modal-footer">
+                        <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                    </div>
+                }
+                <div id="error"></div><!--En este div saldran los errores que son atrapados en el try-->
+            </div>
+        </div>
+    </div>
+
+    <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
+    <script src="~/Scripts/bootstrap.min.js"></script>
 </body>
 </html>
+
 <script>
+    function Recuperar(rpta)
+    {
+        if (rpta == "1") {
+            alert("Se envio una clave temporal a su Emial.");
+            document.getElementById("btnclose").click();
+        }
+        else
+        {
+            alert("Ocurrio un error al momento de enviar la clave");
+        }
+    }
 
     function Ingresar(rpta)
     {
@@ -100,6 +156,13 @@
         else
         {
             alert("Usuario o contrasena incorrecto!");
+            document.getElementById("tire").hidden = true;
         }
     }
+
+    function strspin()
+    {
+        document.getElementById("tire").hidden = false;
+    }
+
 </script>

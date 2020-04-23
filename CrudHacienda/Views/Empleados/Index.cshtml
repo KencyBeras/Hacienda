@@ -6,16 +6,7 @@
     List<SelectListItem> ListaEstado = (List<SelectListItem>)ViewBag.ListaEstado;
 }
 
-<h2>Index</h2>
-<div class="row form-group">
-    <!-- Button trigger modal -->
-    <div class=" col-xs-8 col-lg-11 ">
-        <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Agregar Empleado</button>
-    </div>
-    <div class="col-xs-4 col-lg-1">
-        @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
-    </div>
-</div>
+<h2>Empleados</h2>
 
 @using (Ajax.BeginForm("FiltrarEmpleados", "", new AjaxOptions
 {
@@ -24,39 +15,43 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmsearch" }))
 {
-    <div class=" col-md-offset-8">
-        @Html.TextBox("Busqueda", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
-    </div>
-    <br />
+    <div class="row">
+        <!--Header-->
+        <div class="col-sm-6 form-group">
+            <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#EmpleadosModal">Nuevo Empleado</button>
+        </div>
+        <div class="col-sm-6 form-group">
+            @Html.TextBox("Busqueda", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
+        </div>
+    </div><!--End Header-->
+    <!--==================-->
     <div id="DivLempleados">
         @Html.Partial("_TablaEmpleados", Model)
     </div>
 }
-
 <!--Modal Elimainar datos-->
-<div class="modal fade" id="exampleModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="ModalEliminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Eliminar registro</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Eliminacion de registro</h5>
             </div>
             <div class="modal-body">
                 Seguro que desea eliminar el registro?
             </div>
             <div class="modal-footer">
-                <button type="button" id="btnCerrarConf" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <button type="button" id="btnCerrarConf" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
                 <button type="button" onclick="EliminarRegistro()" class="btn btn-primary">Aceptar</button>
             </div>
         </div>
     </div>
 </div>
-
-<!-- Modal: Esta ventana nos abrra un formulario flotante para agregar -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<!-- Modal agregar && Editar-->
+<div class="modal fade" id="EmpleadosModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Agregar Nuevo Empleado</h5>
+                <h5 class="modal-title" id="exampleModalLabel">EMPLEADOS</h5>
             </div>
             @using (Ajax.BeginForm("AgregarEmpleados", "Empleados", null, new AjaxOptions
             {
@@ -68,57 +63,53 @@
             {
                 @Html.Hidden("Titulo")
                 //Variable oculto
-            <div class="modal-body">
+                <div class="modal-body">
 
-                <div class="form-group">
-                    @Html.TextBox("Cedula", null, new { @class = "form-control", placeholder = "Numero Documento" })
-                </div>
-                <div class=" row form-group">
-                    <div class=" col-md-12 col-lg-6">
-                        @Html.TextBox("Nombre", null, new { @class = "form-control", placeholder = "Nombre" })
+                    <div class="form-group">
+                        @Html.TextBox("Cedula", null, new { @class = "form-control", placeholder = "Numero Documento" })
                     </div>
 
-                    <div class="col-md-12 col-lg-6">
-                        @Html.TextBox("Apellidos", null, new { @class = "form-control", placeholder = "Apellidos" })
-                    </div>
-                </div>
+                    <div class=" row form-group">
+                        <div class=" col-md-12 col-lg-6">
+                            @Html.TextBox("Nombre", null, new { @class = "form-control", placeholder = "Nombre" })
+                        </div>
 
-                <div class="form-group">
-                    <select class="form-control" id="Sexo" name="Sexo">
-                        <option value="">Sexo (Seleccionar...)</option>
-                        <option value="F">Femenino</option>
-                        <option value="M">Masculino</option>
-                    </select>
-                </div>
-
-                <div class="row form-group">
-
-                    <div class="col-lg-6">
-                        @Html.TextBox("Telefono", null, new { @class = "form-control", placeholder = "Telefono" })
+                        <div class="col-md-12 col-lg-6">
+                            @Html.TextBox("Apellidos", null, new { @class = "form-control", placeholder = "Apellidos" })
+                        </div>
                     </div>
 
-                    <div class="col-lg-6">
-                        @Html.TextBox("Email", null, new { @class = "form-control", placeholder = "Email/Correo" })
+                    <div class="form-group">
+                        <select class="form-control" id="Sexo" name="Sexo">
+                            <option value="">Sexo (Seleccionar...)</option>
+                            <option value="F">Femenino</option>
+                            <option value="M">Masculino</option>
+                        </select>
+                    </div>
+
+                    <div class="row form-group">
+
+                        <div class="col-lg-6">
+                            @Html.TextBox("Telefono", null, new { @class = "form-control", placeholder = "(809/829)-999-9999" })
+                        </div>
+
+                        <div class="col-lg-6">
+                            @Html.TextBox("Email", null, new { @class = "form-control", placeholder = "Email/Correo" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.TextBox("Direccion", null, new { @class = "form-control", placeholder = "Direccion: Ej. No.Domicilio, Sector/Barrio, Municipio, Provincia/Ciudad, Pais." })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.DropDownList("Puesto", ListaPuestos, new { @class = "form-control" })
+                    </div>
+
+                    <div class="form-group">
+                        @Html.DropDownList("Estado", ListaEstado, new { @class = "form-control" })
                     </div>
                 </div>
-
-                <div class="form-group">
-                    @Html.TextBox("Direccion", null, new { @class = "form-control", placeholder = "Direccion" })
-                </div>
-
-                <div class="form-group">
-                    @Html.DropDownList("Puesto", ListaPuestos, new { @class = "form-control" })
-                </div>
-
-                <div class="form-group">
-                    @Html.Editor("FechaEntrada", null, new {htmlAttributes= new { @class="form-control", @type = "date"} })
-                </div>
-
-                <div class="form-group">
-                    @Html.DropDownList("Estado", ListaEstado, new { @class = "form-control" })
-                </div>
-
-            </div>
 
                 <div class="modal-footer">
                     <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
@@ -126,15 +117,13 @@
                 </div>
 
                 <div id="Diverror">
-
+                    <!--Se veran los Errores geerados-->
                 </div>
             }
         </div>
     </div>
 </div>
 <!--End Modal-->
-
-
 
 <script>
     function Limpiar() {
@@ -172,8 +161,7 @@
     }
 
     function Editar(IdEmp) {
-        /*Al moemnto de hacer click en editar se le asigna el
-         * idEmpleado a la variable Titulo*/
+        /*Al momento de hacer click en editar se le asigna el idEmpleado a la variable Titulo*/
         Limpiar();
         document.getElementById("Diverror").innerHTML = "";
         $.get("Empleados/RecuperarEmpleados/?idempleado=" + IdEmp, function (data) {
@@ -192,19 +180,15 @@
         document.getElementById("Titulo").value = IdEmp;
     }
 
-    function LlamarModal(IdEmpl)
-    {
+    function LlamarModal(IdEmpl) {
         document.getElementById("Titulo").value = IdEmpl;
-     //Asigna el valor recibido en (IdEmpl) a la variable Titulo
+        //Asigna el valor recibido en (IdEmpl) a la variable Titulo
     }
 
-    function EliminarRegistro()
-    {
+    function EliminarRegistro() {
         var Nid = document.getElementById("Titulo").value;
-        $.get("Empleados/EliminarEmpleado/?IdEmpleado=" + Nid, function (data)
-        {
-            if (data == "1")
-            {
+        $.get("Empleados/EliminarEmpleado/?IdEmpleado=" + Nid, function (data) {
+            if (data == "1") {
                 alert("Se ejecuto la ccion de manera exitosa!");
                 $("#frmsearch").trigger("submit");
                 document.getElementById("btnCerrarConf").click();

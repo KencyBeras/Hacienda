@@ -8,9 +8,10 @@ using CrudHacienda.Filtros;
 
 namespace CrudHacienda.Controllers
 {
-    [Acceder]
+    [Acceder]//Variable global que permite o niega el acceso a la app
     public class EmpleadosController : Controller
     {
+        //Listar Combo Puesto
         public void ListarComboPuesto()
         {
             List<SelectListItem> Lista;
@@ -25,10 +26,9 @@ namespace CrudHacienda.Controllers
                          }).ToList();
                 Lista.Insert(0, new SelectListItem { Text = "Puesto --Seleccionar--", Value = "" });
                 ViewBag.ListaPuestos = Lista;
-
             }
         }
-
+        //Listar Combo Estado Empleados
         public void ListarComboEstado()
         {
             List<SelectListItem> Lista;
@@ -43,10 +43,8 @@ namespace CrudHacienda.Controllers
                          }).ToList();
                 Lista.Insert(0, new SelectListItem { Text = "Estado --Seleccionar--", Value = "" });
                 ViewBag.ListaEstado = Lista;
-
             }
         }
-
         // GET: Empleados
         public ActionResult Index()
         {
@@ -61,8 +59,7 @@ namespace CrudHacienda.Controllers
                                   EE.IdStausEmpleado
                                   join cargo in db.Puestos
                                   on Emp.Puesto equals cargo.IdPuesto
-                                  where Emp.Estado == 1
-
+                                  where Emp.Estado != 2
                                   select new EmpleadosCLS
                                   {
                                       IdEmpleado = Emp.IdEmpleado,
@@ -77,14 +74,11 @@ namespace CrudHacienda.Controllers
                                       NPuesto = cargo.NomPuesto,
                                       Nestado = EE.Estado
                                   }).ToList();
-
-
             }
 
             return View(ListaEmpleados);
         }
-
-
+        /*Filtro Empleados*/
         public ActionResult FiltrarEmpleados(string Busqueda)
         {
             List<EmpleadosCLS> ListaEmpleados = new List<EmpleadosCLS>();
@@ -99,7 +93,7 @@ namespace CrudHacienda.Controllers
                                       EE.IdStausEmpleado
                                       join cargo in db.Puestos
                                       on Emp.Puesto equals cargo.IdPuesto
-                                      where Emp.Estado == 1
+                                      where Emp.Estado != 2
                                       select new EmpleadosCLS
                                       {
                                           IdEmpleado = Emp.IdEmpleado,
@@ -122,7 +116,7 @@ namespace CrudHacienda.Controllers
                                       EE.IdStausEmpleado
                                       join cargo in db.Puestos
                                       on Emp.Puesto equals cargo.IdPuesto
-                                      where (Emp.Estado == 1 && Emp.Nombre.Contains(Busqueda)) ||
+                                      where (Emp.Estado != 2 && Emp.Nombre.Contains(Busqueda)) ||
                                       (Emp.Estado == 1 && Emp.Cedula.Contains(Busqueda)) ||
                                       (Emp.Estado == 1 && Emp.Apellidos.Contains(Busqueda)) ||
                                       (Emp.Estado == 1 && Emp.Telefono.Contains(Busqueda))
@@ -141,8 +135,6 @@ namespace CrudHacienda.Controllers
                                           Nestado = EE.Estado
                                       }).ToList();
                 }
-
-
             }
 
             return PartialView("_TablaEmpleados", ListaEmpleados);
@@ -161,8 +153,7 @@ namespace CrudHacienda.Controllers
                     respuesta += "<ul class='list-group'>";
                     foreach (var item in query)
                     {
-
-                        respuesta += "<li class='list-group-item'>" + item + "</li>";
+                        respuesta += "<li class='list-group-item text-danger'>" + item + "</li>";
                     }
 
                     respuesta += "</ul>";
@@ -183,8 +174,8 @@ namespace CrudHacienda.Controllers
                             emp.Direccion = empcls.Direccion;
                             emp.Puesto = empcls.Puesto;
                             emp.Estado = empcls.Estado;
-                            emp.FechaEntrada = empcls.FechaEntrada;
-                            emp.FechaActualizacion = emp.FechaEntrada;
+                            emp.FechaEntrada = DateTime.Now;
+                            emp.FechaActualizacion = DateTime.Now;
                             db.Empleados.Add(emp);
                             respuesta = db.SaveChanges().ToString();
                             if (respuesta == "0") respuesta = "";
@@ -200,25 +191,24 @@ namespace CrudHacienda.Controllers
                             EMPDO.Sexo = empcls.Sexo;
                             EMPDO.Direccion = empcls.Direccion;
                             EMPDO.Puesto = empcls.Puesto;
-                            EMPDO.FechaActualizacion = EMPDO.FechaEntrada;
+                            EMPDO.FechaActualizacion = DateTime.Now;
                             EMPDO.Estado = empcls.Estado;
                             respuesta = db.SaveChanges().ToString();
                         }
                     }
                 }
-
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 respuesta = "";
-                /*Se iguala la respuesta a vacion para que esto
-                se retorne como un error*/
+                /*Se iguala la respuesta a vacio para que esto se retorne como un error*/
             }
+
             return respuesta;
         }
-
-        public JsonResult RecuperarEmpleados(int idempleado) {
-
+        /*Recuperar empleados*/
+        public JsonResult RecuperarEmpleados(int idempleado)
+        {
             EmpleadosCLS EmpldoCLS = new EmpleadosCLS();
             using (var db = new MyonexionEntities())
             {
@@ -235,10 +225,8 @@ namespace CrudHacienda.Controllers
                 EmpldoCLS.FechaEntrada = Empldo.FechaEntrada;
                 EmpldoCLS.Estado = Empldo.Estado;
             }
-
             return Json(EmpldoCLS, JsonRequestBehavior.AllowGet);
         }
-
         /*Eliminar empleados*/
         public string EliminarEmpleado(EmpleadosCLS EMPCLS)
         {
@@ -253,13 +241,12 @@ namespace CrudHacienda.Controllers
                     respuesta = db.SaveChanges().ToString();
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
 
                 respuesta = "";
             }
             return respuesta;
         }
-
     }
 }

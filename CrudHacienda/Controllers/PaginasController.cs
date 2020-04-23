@@ -4,9 +4,11 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CrudHacienda.Models;
+using CrudHacienda.Filtros;
 
 namespace CrudHacienda.Controllers
 {
+    [Acceder]
     public class PaginasController : Controller
     {
         // GET: Paginas
