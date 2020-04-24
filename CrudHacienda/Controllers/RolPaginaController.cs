@@ -16,6 +16,7 @@ namespace CrudHacienda.Controllers
         {
             ListarPagina();
             ListarTipoUsuario();
+            ListarTipoUsuarioB();
             List<RolPaginaCLS> ListaRoles = new List<RolPaginaCLS>();
             using (var db = new MyonexionEntities())
             {
@@ -78,7 +79,8 @@ namespace CrudHacienda.Controllers
             return PartialView("_TablaRolPagina", ListaRolPagina);
         }
 
-        public void ListarTipoUsuario()
+        //Realizar bsqedas
+        public void ListarTipoUsuarioB()
         {
             List<SelectListItem> Lista;
             using (var db = new MyonexionEntities())
@@ -92,6 +94,24 @@ namespace CrudHacienda.Controllers
                          }).ToList();
 
                 Lista.Insert(0, new SelectListItem { Text = "Tipo Usuario --Seleccionar--", Value = "0" });
+                ViewBag.ListaTipoUsuarioB = Lista;
+            }
+        }
+
+        public void ListarTipoUsuario()
+        {
+            List<SelectListItem> Lista;
+            using (var db = new MyonexionEntities())
+            {
+                Lista = (from tipoUsuario in db.TipoUsuario
+                         select new SelectListItem
+                         {
+                             Text = tipoUsuario.Privilegios,
+                             Value = tipoUsuario.IdTipoUsuario.ToString()
+
+                         }).ToList();
+
+                Lista.Insert(0, new SelectListItem { Text = "Tipo Usuario --Seleccionar--", Value = "" });
                 ViewBag.ListaTipoUsuario = Lista;
             }
         }
@@ -147,7 +167,6 @@ namespace CrudHacienda.Controllers
                             db.RolPagina.Add(rolp);
                             respuesta = db.SaveChanges().ToString();
                             if (respuesta == "0") respuesta = "";
-
                         }
                         if (Titulo >= 0)
                         {//if para la editar datos
@@ -158,13 +177,11 @@ namespace CrudHacienda.Controllers
                         }
                     }
                 }
-
             }
             catch (Exception)
 
             {
                 respuesta = "";
-
             }
 
             return respuesta;
@@ -177,13 +194,11 @@ namespace CrudHacienda.Controllers
             using (var db = new MyonexionEntities())
             {
                 RolPagina rolp = db.RolPagina.Where(p => p.IIDROLPAGINA == idrolpagina).First();
-
                 rpcls.IDTIPOUSUARIO = rolp.IDTIPOUSUARIO;
                 rpcls.IDPAGINA = rolp.IDPAGINA;
             }
 
             return Json(rpcls, JsonRequestBehavior.AllowGet);
         }
-
     }
 }

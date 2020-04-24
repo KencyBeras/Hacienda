@@ -243,8 +243,8 @@ namespace CrudHacienda.Controllers
                                 MP.Producto = PCLS.Producto;
                                 MP.Descripcion = PCLS.Descripcion;
                                 MP.Estado = (int)PCLS.Estado;
-                                MP.FechaCreacion = PCLS.FechaCreacion;
-                                MP.FechaActualizacion = MP.FechaCreacion;
+                                MP.FechaCreacion = DateTime.Now;
+                                MP.FechaActualizacion = DateTime.Now;
                                 db.MisProductos.Add(MP);
                                 respuesta = db.SaveChanges().ToString();
                                 if (respuesta == "0") respuesta = "";
@@ -265,7 +265,7 @@ namespace CrudHacienda.Controllers
                                 MP.Producto = PCLS.Producto;
                                 MP.Descripcion = PCLS.Descripcion;
                                 MP.Estado = (int)PCLS.Estado;
-                                MP.FechaActualizacion = PCLS.FechaCreacion; 
+                                MP.FechaActualizacion = DateTime.Now;
                                 respuesta = db.SaveChanges().ToString();
                             }
                             

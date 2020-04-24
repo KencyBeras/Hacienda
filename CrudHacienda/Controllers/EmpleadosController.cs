@@ -243,7 +243,6 @@ namespace CrudHacienda.Controllers
             }
             catch (Exception)
             {
-
                 respuesta = "";
             }
             return respuesta;

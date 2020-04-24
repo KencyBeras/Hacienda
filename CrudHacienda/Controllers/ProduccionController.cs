@@ -132,8 +132,9 @@ namespace CrudHacienda.Controllers
         public ActionResult Index()
         {
            // List<ProduccionCLS> ListaProduccion = new List<ProduccionCLS>();
-            ListaEmpleados();
-            ListaPP();
+            ListarEmpleados();
+            ListarProductos();
+            ListarProveedores();
             List<ProduccionCLS> ListaProduccion = new List<ProduccionCLS>();
             using (var db = new MyonexionEntities())
             {
@@ -142,6 +143,7 @@ namespace CrudHacienda.Controllers
                                   join emp in db.Empleados on prod.Despachado equals emp.IdEmpleado
                                   join prov in db.Proveedores on prod.Proveedor equals prov.IdProveedor
                                   join product in db.MisProductos on prod.IdProducto equals product.IdProducto 
+                                  orderby detprod.FechaProduccion descending
                                   select new ProduccionCLS
                                   {
                                      IdProduccion = prod.IdProduccion,
@@ -158,8 +160,8 @@ namespace CrudHacienda.Controllers
                                   }).ToList();
 
                 Session["ListaU"] = ListaProduccion;
-                return View(ListaProduccion);
             }
+                return View(ListaProduccion);
         }
 
         /*Filtras la busqueda de productos*/
@@ -172,12 +174,13 @@ namespace CrudHacienda.Controllers
                 if (FechaFin == null)
                 {
                     ListaProduccion = (from prod in db.Produccion
-                                        join detprod in db.DetalleProduccion on prod.IdProduccion equals detprod.IdProduccion
-                                        join emp in db.Empleados on prod.Despachado equals emp.IdEmpleado
-                                        join prov in db.Proveedores on prod.Proveedor equals prov.IdProveedor
-                                        join product in db.MisProductos on prod.IdProducto equals product.IdProducto
-                                        select new ProduccionCLS
-                                        {
+                                       join detprod in db.DetalleProduccion on prod.IdProduccion equals detprod.IdProduccion
+                                       join emp in db.Empleados on prod.Despachado equals emp.IdEmpleado
+                                       join prov in db.Proveedores on prod.Proveedor equals prov.IdProveedor
+                                       join product in db.MisProductos on prod.IdProducto equals product.IdProducto
+                                       orderby detprod.FechaProduccion descending
+                                       select new ProduccionCLS
+                                       {
                                             IdProduccion = prod.IdProduccion,
                                             Fecha = detprod.FechaProduccion,
                                             Producto = product.Producto,
@@ -196,13 +199,14 @@ namespace CrudHacienda.Controllers
                 else
                 {
                     ListaProduccion = (from prod in db.Produccion
-                                        join detprod in db.DetalleProduccion on prod.IdProduccion equals detprod.IdProduccion
-                                        where detprod.FechaProduccion >= FechaInicio && detprod.FechaProduccion <= FechaFin
-                                        join emp in db.Empleados on prod.Despachado equals emp.IdEmpleado
-                                        join prov in db.Proveedores on prod.Proveedor equals prov.IdProveedor
-                                        join product in db.MisProductos on prod.IdProducto equals product.IdProducto
-                                        select new ProduccionCLS
-                                        {
+                                       join detprod in db.DetalleProduccion on prod.IdProduccion equals detprod.IdProduccion
+                                       where detprod.FechaProduccion >= FechaInicio && detprod.FechaProduccion <= FechaFin
+                                       join emp in db.Empleados on prod.Despachado equals emp.IdEmpleado
+                                       join prov in db.Proveedores on prod.Proveedor equals prov.IdProveedor
+                                       join product in db.MisProductos on prod.IdProducto equals product.IdProducto
+                                       orderby detprod.FechaProduccion descending
+                                       select new ProduccionCLS
+                                       {
                                             IdProduccion = prod.IdProduccion,
                                             Fecha = detprod.FechaProduccion,
                                             Producto = product.Producto,
@@ -215,61 +219,63 @@ namespace CrudHacienda.Controllers
                                             TotalVenta = detprod.TotalVenta
                                         
                                         }).ToList();
+
                     Session["ListaU"] = ListaProduccion;
                     //Variable global que elmacena la lista
                 }
-
             }
 
             return PartialView("_TablaProduccion", ListaProduccion);
         }
 
         /*Lista de productos*/
-        public void ListaPP()
+        public void ListarProveedores()
         {
-            List<SelectListItem> ListaPP = new List<SelectListItem>();
+            List<SelectListItem> ListaProveedores;
             using (var db = new MyonexionEntities())
             {
-                List<SelectListItem> listaProductos = (from item in db.MisProductos
-                                                       where item.Estado == 1
-                                                       select new SelectListItem
-                                                       {
-                                                           Text = item.Producto,
-                                                           Value = item.IdProducto.ToString()
-                                                       }).ToList();
+                ListaProveedores = (from item in db.Proveedores
+                                    select new SelectListItem
+                                    {
+                                        Text = item.NombreProveedor + " " + item.SegundoNombre,
+                                        Value = item.IdProveedor.ToString()
+                                    }).ToList();
 
-                List<SelectListItem> listaProveedores = (from item in db.Proveedores
-                                                         where item.Estado == 1
-                                                         select new SelectListItem
-                                                         {
-                                                             Text = item.NombreProveedor + " " + item.SegundoNombre,
-                                                             Value = item.IdProveedor.ToString()
-                                                         }).ToList();
+                ListaProveedores.Insert(0, new SelectListItem { Text = "Proveedor: ---Seleccionar---", Value = "" });
 
-                ListaPP.AddRange(listaProveedores);
-                listaProveedores = listaProveedores.OrderBy(p => p.Text).ToList();
-                listaProveedores.Insert(0, new SelectListItem { Text = "Proveedor: ---Seleccionar---", Value = "" });
-                ViewBag.listaProveedor = listaProveedores;
-                //---------------------------------------------------------------------------------------------------
-                ListaPP.AddRange(listaProductos);
-                listaProductos = listaProductos.OrderBy(p => p.Text).ToList();
-                listaProductos.Insert(0, new SelectListItem { Text = "Producto: ---Seleccionar---", Value = "" });
-                ViewBag.listaProducto = listaProductos;
             }
+                ViewBag.listaProveedor = ListaProveedores;
+        }
+        /*Lista de Prodctos*/
+        public void ListarProductos()
+        {
+            List<SelectListItem> ListaProductos;
+            using (var db = new MyonexionEntities())
+            {
+                ListaProductos = (from item in db.MisProductos
+                                  select new SelectListItem
+                                  {
+                                      Text = item.Producto,
+                                      Value = item.IdProducto.ToString()
+                                  }).ToList();
+
+                ListaProductos.Insert(0, new SelectListItem { Text = "Productos: ---Seleccionar---", Value = "" });
+            }                     
+                ViewBag.listaProducto = ListaProductos;
         }
 
         /*Lista de empleados*/
-        public void ListaEmpleados()
+        public void ListarEmpleados()
         {
             List<SelectListItem> ListaEmpleados;
             using (var db = new MyonexionEntities())
             {
                 ListaEmpleados = (from item in db.Empleados
-                                  where item.Estado == 1
                                   select new SelectListItem
                                   {
-                                      Text = item.Nombre + " " + item.Apellidos,
+                                      Text = item.Nombre,
                                       Value = item.IdEmpleado.ToString()
+
                                   }).ToList();
 
                 ListaEmpleados.Insert(0, new SelectListItem { Text = "Empleados: ---Seleccionar---", Value = "" });
@@ -358,13 +364,11 @@ namespace CrudHacienda.Controllers
                                 /*Si ocurre un error durante la transaccion
                                 todo el proceso se anulara*/
                             }
-
                         }
                     }
-
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 respuesta = "";
                 
@@ -376,19 +380,21 @@ namespace CrudHacienda.Controllers
         /*Metodo que recupera los datos exixtentes de acuerdo al registro seleccionado*/
         public JsonResult DatosProduccion(int produccion)
         {                                   //La variable Productos es enviada desde la clase Editar en el index
+            ListarEmpleados();
+            ListarProductos();
+            ListarProveedores();
             ProduccionCLS pcls = new ProduccionCLS();
             DetalleProduccionCLS dpcls = new DetalleProduccionCLS();
             using (var db = new MyonexionEntities())
             {
                 Produccion Mprod = db.Produccion.Where(p => p.IdProduccion == produccion).First();
-                pcls.IdProduccion = Mprod.IdProduccion;
+                DetalleProduccion dprod = db.DetalleProduccion.Where(p => p.IdDetalleProduccion == Mprod.IdProduccion).First();
                 pcls.IdProducto = Mprod.IdProducto;
                 pcls.Unidad = Mprod.Unidad;
                 pcls.Turno = Mprod.Turno;
                 pcls.EstadoFacturacion = Mprod.EstadoFacturacion;
                 pcls.Proveedor = (int)Mprod.Proveedor;
                 pcls.Despachado = (int)Mprod.Despachado;
-                DetalleProduccion dprod = db.DetalleProduccion.Where(p => p.IdProduccion == Mprod.IdProduccion).First();
                 dpcls.Cantidad = dprod.Cantidad;
                 dpcls.PrecioVenta = dprod.PrecioVenta;
                 dpcls.FechaProduccion = dprod.FechaProduccion;

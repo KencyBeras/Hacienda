@@ -28,5 +28,4 @@ namespace CrudHacienda.Filtros
             base.OnActionExecuting(filterContext);
         }
     }
-
 }

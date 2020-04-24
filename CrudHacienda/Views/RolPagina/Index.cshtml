@@ -4,17 +4,10 @@
     ViewBag.Title = "Index";
     List<SelectListItem> Listapagina = (List<SelectListItem>)ViewBag.ListaPagina;
     List<SelectListItem> Listatipousuario = (List<SelectListItem>)ViewBag.ListaTipoUsuario;
+    List<SelectListItem> ListatipousuarioB = (List<SelectListItem>)ViewBag.ListaTipoUsuarioB;
 }
-
-<h2>Index</h2>
-<div class="row form-group">
-    <!-- Button trigger modal -->
-    <div class=" col-xs-8 col-lg-11 ">
-        <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Agregar Rol</button>
-    </div>
-    <div class="col-xs-4 col-lg-1">
-        @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
-    </div>
+<div>
+    <h2>Asigacion de roles y/o permisos</h2>
 </div>
 
 @using (Ajax.BeginForm("FiltrarRolPagina", "RolPagina", new AjaxOptions
@@ -24,10 +17,16 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmsearch" }))
 {
-    <div class="form-group">
-        @Html.DropDownList("Busqueda", Listatipousuario, new { @class = "form-control" })
+    <div class="row form-group">
+        <!-- Button trigger modal -->
+        <div class="col-xs-6">
+            <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Nuevo Rol</button>
+        </div>
+        <div class="col-xs-6">
+            @Html.DropDownList("Busqueda", ListatipousuarioB, new { @class = "form-control" })
+        </div>
     </div>
-    <br />
+
     <div id="DivRolPagina">
         @Html.Partial("_TablaRolPagina", Model)
     </div>
@@ -38,7 +37,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">ROLES DE PAGINA</h5>
+                <h5 class="modal-title" id="exampleModalLabel">ROLES</h5>
             </div>
             <div class="modal-body">
                 Seguro que deseas desasignar el rol?
@@ -123,15 +122,12 @@
             alert("Se guardaron los datos correctamente...");
             document.getElementById("btnclose").click();
         }
-        else
-        {
+        else {
             alert("Ocurrio un error, verifique que los datos sean correctos...");
         }
     }
 
     function Editar(Idrolp) {
-        /*Al moemnto de hacer click en editar se le asigna el
-         * idEmpleado a la variable Titulo*/
         Limpiar();
         document.getElementById("Diverror").innerHTML = "";
         $.get("RolPagina/RecuperarRol/?idrolpagina=" + Idrolp, function (data) {
@@ -142,23 +138,7 @@
         document.getElementById("Titulo").value = Idrolp;
     }
 
-    function LlamarModal(idrolp)
-    {
+    function LlamarModal(idrolp) {
         document.getElementById("Titulo").value = idrolp;
-     //Asigna el valor recibido en (IdEmpl) a la variable Titulo
-    }
-
-    function EliminarRegistro()
-    {
-        var Nid = document.getElementById("Titulo").value;
-        $.get("RolPagina/EliminarRegistro/?IdRolPagina=" + Nid, function (data)
-        {
-            if (data == "1")
-            {
-                alert("Se ejecuto la accion de manera exitosa!");
-                $("#frmsearch").trigger("submit");
-                document.getElementById("btnCerrarConf").click();
-            }
-        })
     }
 </script>

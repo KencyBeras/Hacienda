@@ -37,8 +37,9 @@ namespace CrudHacienda.Controllers
                 mensaje += "<ul class='list-group'>";
                 foreach (var item in query)
                 {
-                    mensaje += "<li class='list-group-item alert alert-danger'>" + item + "</li>";
+                    mensaje += "<li class='list-group-item text-danger'>" + item + "</li>";
                 }
+
                 mensaje += "</ul>";
                 //Si el modelo devuleve un error lo atrapamos en la variable mensaje y lo enviamos a la vista
             }
@@ -64,9 +65,7 @@ namespace CrudHacienda.Controllers
                         //Objeto usuario
                         Usuario ousuario = db.Usuario.Where(p => p.NombreUsuario == Nusuario
                         && p.Contrasena == fclavecifrado).First();
-
                         Session["usuario"] = ousuario;
-
                         List<MenuCLS> listamenu = (from Usu in db.Usuario
                                                    join tusuario in db.TipoUsuario
                                                    on Usu.TipoUsuario equals tusuario.IdTipoUsuario
@@ -91,7 +90,6 @@ namespace CrudHacienda.Controllers
             }
 
             return mensaje;
-
         }
 
         public string RecuperarContra(string correo, string cedula)
@@ -133,9 +131,7 @@ namespace CrudHacienda.Controllers
                         Correo.EnviarCorreo(correo, "Recuperacion credenciales","Se restauro su clave, su clave temporal es: "+newPassword," ");
                     }
                 }
-
             }
-
                 return respuesta;
         }
     }

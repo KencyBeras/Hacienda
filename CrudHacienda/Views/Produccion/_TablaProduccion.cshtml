@@ -1,8 +1,5 @@
 ﻿@model IEnumerable<CrudHacienda.Models.ProduccionCLS>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
 <table class="table table-striped">
     <tr>
         <th>
@@ -75,7 +72,6 @@
             @{ if (item.EstadoFacturacion == 1)
                 {
                     <span class="label label-warning">Credito</span>
-                    //http://jquery-manual.blogspot.com/2014/02/clases-para-aplicar-color-los-textos-y.html
                 }
                 <!--Condicion para sustituir F o f -> Femenino-->
                 if (item.EstadoFacturacion == 2)

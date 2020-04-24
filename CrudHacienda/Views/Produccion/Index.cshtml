@@ -1,4 +1,5 @@
 ﻿@model IEnumerable<CrudHacienda.Models.ProduccionCLS>
+
 @{
     ViewBag.Title = "Produccion";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -9,18 +10,6 @@
 
 <h2>Produccin Diaria</h2>
 
-<!-- Button trigger modal -->
-<div class="row form-group">
-    <div class=" col-xs-6 col-lg-8 ">
-        <button type="button" onclick="LanzarModalP()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Venta</button>
-    </div>
-    <div class="col-xs-3 col-lg-1">
-        @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
-    </div>
-    <div class="col-xs-3 col-lg-3">
-        @Html.ActionLink(" ", "GenerarPDF", "Produccion", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-print",@target="_blank" })
-    </div>
-</div>
 <!---------------------===================================-------------------->
 @using (Ajax.BeginForm("FiltroProduccion", "", new AjaxOptions
 {
@@ -30,26 +19,41 @@
 }, new { @id = "frmsearch" }))
 {
     <div class="row form-group">
-        <div class="col-md-4 col-md-offset-8 text-center">
-            <h5>FILTRAR POR FECHA</h5>
-        </div>
-        <div class="col-md-2 col-md-offset-8">
+        <div class="col-md-offset-6 text-center">
+                <h5>FILTRAR POR FECHA</h5>
+         </div>
+        <div class="col-md-3 col-md-offset-6">
             <span>Desde</span>
             <div class="">
                 @Html.Editor("FechaInicio", null, new { htmlAttributes = new { @class = "form-control", @type = "date" } })
             </div>
         </div>
-        <div class="col-md-2">
+
+        <div class="col-md-3">
             <span>Hasta</span>
             <div class="">
                 @Html.Editor("FechaFin", null, new { htmlAttributes = new { @class = "form-control", @type = "date", value = System.DateTime.Today.ToShortDateString() } })
             </div>
         </div>
     </div>
+
+    <div class="row form-group">
+        <div class="col-xs-8 col-md-10">
+            <button type="button" onclick="LanzarModalP()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">Nueva Venta</button>
+        </div>
+        <div class="col-xs-4 col-md-2">
+            <div class="col-xs-6">
+                @Html.ActionLink(" ", "GenerarPDF", "Produccion", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-print", @target = "_blank" })
+            </div>
+
+            <div class="col-xs-6">
+                @Html.ActionLink(" ", "GenerarPDF", "Produccion", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-print", @target = "_blank" })
+            </div>
+        </div>
+    </div>
     <!--Filtrar por fecha-->
-    <br />
     <div class="form-horizontal">
-        <div id="DivPagina" class="">
+        <div id="DivPagina">
             @Html.Partial("_TablaProduccion", Model)
         </div>
     </div>
@@ -79,7 +83,7 @@
                     </div>
 
                     <div class="form-group">
-                        <select class="form-control" id="Unidad" name="unidad">
+                        <select class="form-control" id="Unidad" name="Unidad">
                             <option value="">Medida liquida (Seleccionar...)</option>
                             <option value="Litros">Litros</option>
                             <option value="Botella">Botellas</option>
@@ -93,6 +97,7 @@
                             <option value="Tarde">Tarde</option>
                         </select>
                     </div>
+
                     <div class="form-group">
                         <select class="form-control" id="EstadoFacturacion" name="EstadoFacturacion">
                             <option value="">Estado Facturacion (Seleccionar...)</option>
@@ -111,11 +116,11 @@
 
 
                     <div class="form-group">
-                        @Html.Editor("Cantidad", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                        @Html.Editor("Cantidad", null, new { htmlAttributes = new { @class = "form-control", @type = "number", step = "any", @placeholder = "Cantidad" } })
                     </div>
 
                     <div class="form-group">
-                        @Html.Editor("PrecioVenta", null, new { htmlAttributes = new { @class = "form-control", @type = "number" } })
+                        @Html.Editor("PrecioVenta", null, new { htmlAttributes = new { @class = "form-control", @type = "number", step = "any", @placeholder = "Precio veta" } })
                     </div>
 
                     <div class="form-group">
@@ -136,12 +141,10 @@
 <!--End Modal-->
 
 <script>
-  
-    var Busqueda = document.getElementById("Busqueda");
+
     var FechaInicio = document.getElementById("FechaInicio");
     var FechaFin = document.getElementById("FechaFin");
-    FechaFin.onchange = function ()
-    {
+    FechaFin.onchange = function () {
         $("#frmsearch").trigger("submit");
     }
 
@@ -160,19 +163,13 @@
         document.getElementById("Titulo").value = -1;
     }
 
-    //function LanzarModal(idproducto) {
-    //    document.getElementById("Titulo").value = idproducto;
-
-    //}
-
     function Editar(idprod) {
         Limpiar();
         $.get("Produccion/DatosProduccion/?produccion=" + idprod, function (data) {
-            document.getElementById("IdProduccion").value = data.IdProduccion;
             document.getElementById("IdProducto").value = data.IdProducto;
             document.getElementById("Unidad").value = data.Unidad;
             document.getElementById("Turno").value = data.Turno;
-            document.getElementById("EstadoFacturacion ").value = data.EstadoFacturacion;
+            document.getElementById("EstadoFacturacion").value = data.EstadoFacturacion;
             document.getElementById("Proveedor").value = data.Proveedor;
             document.getElementById("Despachado").value = data.Despachado;
             document.getElementById("Cantidad").value = data.Cantidad;
@@ -183,13 +180,16 @@
         document.getElementById("Titulo").value = idprod;
     }
 
-    function ProduccioindeHoy(res) {
-        if (res >= "1") {
+    function ProduccioindeHoy(res)
+    {
+        if (res == "1" || res == "2")
+        {
             $("#frmsearch").trigger("submit");
             document.getElementById("btnclose").click();
             alert("Se guardaron los datos correctamente");
         }
-        else {
+        else
+        {
             alert("Ha ocurrido un error, verifique que los datos esten correctos...");
         }
     }

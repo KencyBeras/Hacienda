@@ -8,18 +8,7 @@
 }
 
 <h2>Usuarios del sitema</h2>
-<hr />
-<!-- Button trigger modal -->
-<div class="row form-group">
-    <div class="col-xs-8 col-lg-11">
-        <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-            Nuevo Usuario
-        </button>
-    </div>
-    <div class="col-xs-4 col-lg-1">
-        @Html.ActionLink(" ", "Index", "Home", null, new { @class = "btn  btn-warning btn-sm glyphicon glyphicon-home" })
-    </div>
-</div>
+
 @using (Ajax.BeginForm("FiltroUsuarios", "Usuarios", new AjaxOptions
 {
     HttpMethod = "POST",
@@ -27,12 +16,17 @@
     InsertionMode = InsertionMode.Replace
 }, new { @id = "frmfiltro" }))
 {
-    <div class="form-group">
-        <div class=" col-md-offset-8">
-            @Html.TextBox("Usuario", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
-            @*Este Texbos es el que nos permite realizar las busquedas especificas de usuarios(Filtros)*@
-        </div>
+<div class="form-group">
+    <div class="col-xs-6">
+        <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
+            Nuevo Usuario
+        </button>
     </div>
+    <div class="col-xs-4 col-xs-offset-2">
+        @Html.TextBox("Usuario", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
+        @*Este Texbos es el que nos permite realizar las busquedas especificas de usuarios(Filtros)*@
+    </div>
+</div>
     <br />
     <div class="form-horizontal">
         <div id="DivUser">

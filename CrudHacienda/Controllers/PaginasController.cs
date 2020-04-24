@@ -78,11 +78,10 @@ namespace CrudHacienda.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
 
             {
-                respuesta = "" + ex;
-
+                respuesta = "";
             }
 
             return respuesta;
