@@ -339,21 +339,22 @@ namespace CrudHacienda.Controllers
                                 if (Titulo >=0)
                                 {
                                     /*Update primera tabla*/
-                                    Produccion prod = new Produccion();
+                                    //MisProductos MP = db.MisProductos.Where(p => p.IdProducto == Titulo).First();
+                                    Produccion prod = db.Produccion.Where(p => p.IdProduccion == Titulo).First();
                                     prod.IdProducto = PCLS.IdProducto;
                                     prod.Unidad = PCLS.Unidad;
                                     prod.Turno = PCLS.Turno;
                                     prod.EstadoFacturacion = PCLS.EstadoFacturacion;
                                     prod.Proveedor = PCLS.Proveedor;
                                     prod.Despachado = PCLS.Despachado;
+                                    respuesta = db.SaveChanges().ToString();
                                     int IdProd = prod.IdProduccion;//Temporal
                                     /*Update segunda tabla*/
-                                    DetalleProduccion detprod = new DetalleProduccion();
+                                    DetalleProduccion detprod = db.DetalleProduccion.Where(p => p.IdDetalleProduccion == Titulo).First();
                                     detprod.IdProduccion = IdProd;
                                     detprod.Cantidad = detprodCLS.Cantidad;
                                     detprod.PrecioVenta = detprodCLS.PrecioVenta;
                                     detprod.FechaProduccion = detprodCLS.FechaProduccion;
-                                    db.DetalleProduccion.Add(detprod);
                                     respuesta = db.SaveChanges().ToString();
                                     transaccion.Commit();
                                 }
@@ -388,13 +389,13 @@ namespace CrudHacienda.Controllers
             using (var db = new MyonexionEntities())
             {
                 Produccion Mprod = db.Produccion.Where(p => p.IdProduccion == produccion).First();
-                DetalleProduccion dprod = db.DetalleProduccion.Where(p => p.IdDetalleProduccion == Mprod.IdProduccion).First();
                 pcls.IdProducto = Mprod.IdProducto;
                 pcls.Unidad = Mprod.Unidad;
                 pcls.Turno = Mprod.Turno;
                 pcls.EstadoFacturacion = Mprod.EstadoFacturacion;
                 pcls.Proveedor = (int)Mprod.Proveedor;
                 pcls.Despachado = (int)Mprod.Despachado;
+                DetalleProduccion dprod = db.DetalleProduccion.Where(p => p.IdDetalleProduccion == produccion).First();
                 dpcls.Cantidad = dprod.Cantidad;
                 dpcls.PrecioVenta = dprod.PrecioVenta;
                 dpcls.FechaProduccion = dprod.FechaProduccion;

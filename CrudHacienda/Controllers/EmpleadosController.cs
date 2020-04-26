@@ -143,7 +143,8 @@ namespace CrudHacienda.Controllers
         public string AgregarEmpleados(EmpleadosCLS empcls, int Titulo)
         {
             string respuesta = "";
-            try {
+            try
+            {
 
                 if (!ModelState.IsValid)
                 {
@@ -225,6 +226,7 @@ namespace CrudHacienda.Controllers
                 EmpldoCLS.FechaEntrada = Empldo.FechaEntrada;
                 EmpldoCLS.Estado = Empldo.Estado;
             }
+
             return Json(EmpldoCLS, JsonRequestBehavior.AllowGet);
         }
         /*Eliminar empleados*/

@@ -1,0 +1,213 @@
+﻿@model List<CrudHacienda.Models.ProveedoresCLS>
+@{
+    ViewBag.Title = "Proveedores";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Listado Proveedores</h2>
+<!--Lista de los productos que tenemos actualmente activos-->
+@using (Ajax.BeginForm("Filtroproveedores", "Proveedores", new AjaxOptions
+{
+    HttpMethod = "POST",
+    UpdateTargetId = "DivProv",
+    InsertionMode = InsertionMode.Replace
+}, new { @id = "frmsearchp" }))
+{
+    <div class="row form-group">
+        <!-- Button trigger modal -->
+        <div class="col-md-6">
+            <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#ProveedoresModal">Nuevo Proveedor</button>
+        </div>
+
+        <div class="col-md-6">
+            @Html.TextBox("NumDoc", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
+        </div>
+    </div>
+
+    <div id="DivProv" class="form-group">
+        @Html.Partial("_TablaProveedores", Model)
+    </div>
+}
+<!--Modal Elimainar datos-->
+<div class="modal fade" id="ModalELiminar" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Eliminar Registro</h5>
+            </div>
+            <div class="modal-body">
+                Seguro que desea eliminar el registro?
+            </div>
+            <div class="modal-footer">
+                <button type="button" id="btnCerrarConf" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+                <button type="button" onclick="EliminarRegistro()" class="btn btn-primary">Aceptar</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal: Esta ventana nos abrra un formulario flotante para agregar -->
+<div class="modal fade" id="ProveedoresModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Proveedores</h5>
+            </div>
+
+            @using (Ajax.BeginForm("AgregarProveedores", "Proveedores", null, new AjaxOptions
+            {
+                HttpMethod = "POST",
+                UpdateTargetId = "Diverror",
+                InsertionMode = InsertionMode.Replace,
+                OnSuccess = "AgregarProveedores"
+            }))
+            {
+                @Html.Hidden("Titulo")
+                <!--Modal Body-->
+                <div class="modal-body">
+
+                    <div class="form-group">
+                        <select class="form-control" id="TipoProveedor" name="TipoProveedor">
+                            <option value="">Tipo Proveedor(Seleccionar...)</option>
+                            <option value="Entidad">Entidad</option>
+                            <option value="Persona">Persona</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="NombreProveedor" name="NombreProveedor" placeholder="Nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="SegundoNombre" name="SegundoNombre" placeholder="Segundo Nombre">
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" id="TipoDocumento" name="TipoDocumento">
+                            <option value="">Tipo Documento(Seleccionar...)</option>
+                            <option value="Cedula">Cedula</option>
+                            <option value="RNC">RNC</option>
+                            <option value="Pasaporte">Pasaporte</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="NumDocumento" name="NumDocumento" placeholder="Numero de documento">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Celular" name="Celular" placeholder="# Celular Ej. 1809110000">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Telefono" name="Telefono" placeholder="# Telefono Ej. 1809110000">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="email" class="form-control" id="Email" name="Email" placeholder="Email Ej. alguien@ejemplo.com">
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" id="Direccion" name="Direccion" placeholder="Direccion: Ej. No.Domicilio, Sector/Barrio, Municipio, Provincia/Ciudad, Pais.">
+                    </div>
+
+                    <div class="form-group">
+                        <select class="form-control" id="Estado" name="Estado">
+                            <option value="">Estado (Seleccionar...)</option>
+                            <option value=1>Activo</option>
+                            <option value=0>Inactivo</option>
+                        </select>
+                    </div>
+
+                </div>
+
+                <div class="modal-footer">
+                    <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+
+            }
+
+            <div id="Diverror">
+                <!--Se veran los Errores geerados-->
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!--End Modal-->
+<!--Este script valida que realmente deseamos eliminar este registro-->
+<script>
+    var Documento = document.getElementById("NumDoc");
+    Documento.onkeyup = function () {
+        $("#frmsearchp").trigger("submit");
+    }
+
+    function Limpiar() {
+        document.getElementById("Diverror").innerHTML = "";
+        var controles = document.getElementsByClassName("form-control");
+        var control;
+        for (var i = 0; i < controles.length; i++) {
+            controles[i].value = "";//forma2
+        }
+    }
+
+    function Agregar() {
+        Limpiar();
+        document.getElementById("Titulo").value = -1;
+    }
+
+    function AgregarProveedores(res) {
+        if (res == "0" || res == "1") {
+            $("#frmsearchp").trigger("submit");
+            alert("Se guardaron los datos correctamente");
+            document.getElementById("btnclose").click();
+        }
+        else {
+            alert("Ocurrio un error durante la insercion");
+        }
+    }
+
+    function Editar(IdProveedor) {
+        Limpiar();
+        $.get("Proveedores/RecuperarProveedores/?idproveedor=" + IdProveedor, function (data) {
+            document.getElementById("TipoProveedor").value = data.TipoProveedor;
+            document.getElementById("NombreProveedor").value = data.NombreProveedor;
+            document.getElementById("SegundoNombre").value = data.SegundoNombre;
+            document.getElementById("TipoDocumento").value = data.TipoDocumento;
+            document.getElementById("NumDocumento").value = data.NumDocumento;
+            document.getElementById("Celular").value = data.Celular;
+            document.getElementById("Telefono").value = data.Telefono;
+            document.getElementById("Email").value = data.Email;
+            document.getElementById("Direccion").value = data.Direccion;
+            document.getElementById("Estado").value = data.Estado;
+        })
+
+        document.getElementById("Titulo").value = IdProveedor;
+        /*Recupera los datos del registro especificado y los asigna a cada texbox, mediante
+        la funcion (RecuperarProductos)*/
+    }
+
+    function LanzarModalEliminar(idproveedor) {
+        //Llama el modal que realizara la accin eliminar
+        document.getElementById("Titulo").value = idproveedor;
+    }
+
+    function EliminarRegistro() {
+        var findproducto = document.getElementById("Titulo").value;
+        $.get("Proveedores/EliminarRegistro/?idproveedor=" + findproducto, function (data) {
+            if (data == "1") {
+                alert("La accion se ejecuto correctamente...");
+                $("#frmsearchp").trigger("submit");
+                document.getElementById("btnCerrarConf").click();
+            }
+            else
+            {
+                alert("Ocurrio un error al momnto de eliminar el registro");
+            }
+        })
+    }
+</script>

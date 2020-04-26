@@ -8,8 +8,9 @@
     <title>@ViewBag.Title | Hacienda</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
+    <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
-<body>
+<body >
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -26,25 +27,54 @@
                     {
                         <li>@Html.ActionLink(omenuCLS.Mensaje, omenuCLS.NombreAccion, omenuCLS.NombreControlador)</li>
                     }
-                    <li >@Html.ActionLink(" ", "CerrarSeccion", "Login", null, new { @class = "navbar-brand glyphicon glyphicon-log-out" })</li>
+                    <li>@Html.ActionLink(" ", "CerrarSeccion", "Login", null, new { @class = "navbar-brand glyphicon glyphicon-log-out" })</li>
                 </ul>
             </div>
         </div>
     </div>
-    <div class="container body-content">
-        @RenderBody()
-        <footer> 
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
-        </footer>
+
+    <div>
+        <!--body content -->
+        <div class="container-fluid">
+            <div class="test">
+
+                @RenderBody()
+
+            </div>
+        </div>
+
+        <!--footer-->
+        <div class="bgper">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-md-4 center-block">
+                        <img src="~/Content/img/BlackCow.png" alt="Smiley face" height="42" width="42">
+                    </div>
+                </div>
+
+             <p class="text-center">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+
+            </div>
+        </div>
+
+        <style>
+            .test
+            {
+                min-height:550px;
+            }
+
+            .bgper {
+                background-color: #34495E;
+                color: white;
+                bottom: 0;
+            }
+        </style>
     </div>
 
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
-
-    @*@Scripts.Render("~/bundles/jquery")
-        @Scripts.Render("~/bundles/bootstrap")
-        @RenderSection("scripts", required: false)*@
+    <link href="~/Content/Site.css" rel="stylesheet" />
 
 </body>
 </html>

@@ -224,7 +224,9 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\img\BlackCow.png" />
     <Content Include="Content\img\cowboys.jpg" />
+    <Content Include="Content\img\vaca.png" />
     <Content Include="Content\TextoPlano\CorreosFallidos.txt" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\fontawesome-webfont.svg" />
@@ -371,11 +373,6 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Usuarios\Index.cshtml" />
-    <Content Include="Views\Proveedores\AgregarProveedor.cshtml" />
-    <Content Include="Views\Proveedores\ListaProveedores.cshtml" />
-    <Content Include="Views\Productos\AgregarProductos.cshtml" />
-    <Content Include="Views\Productos\EditarProductos.cshtml" />
-    <Content Include="Views\Proveedores\EditarProveedores.cshtml" />
     <Content Include="Views\Usuarios\_TableUsuarios.cshtml" />
     <Content Include="Views\Productos\_TablaProductos.cshtml" />
     <Content Include="Views\Proveedores\_TablaProveedores.cshtml" />
@@ -399,6 +396,7 @@
     <Content Include="Views\Paginas\Index.cshtml" />
     <Content Include="Views\RolPagina\_TablaRolPagina.cshtml" />
     <Content Include="Views\RolPagina\Index.cshtml" />
+    <Content Include="Views\Proveedores\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

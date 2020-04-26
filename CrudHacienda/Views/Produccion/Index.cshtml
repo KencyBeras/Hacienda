@@ -20,8 +20,8 @@
 {
     <div class="row form-group">
         <div class="col-md-offset-6 text-center">
-                <h5>FILTRAR POR FECHA</h5>
-         </div>
+            <h5>FILTRAR POR FECHA</h5>
+        </div>
         <div class="col-md-3 col-md-offset-6">
             <span>Desde</span>
             <div class="">
@@ -71,7 +71,7 @@
                 HttpMethod = "POST",
                 UpdateTargetId = "error",
                 InsertionMode = InsertionMode.Replace,
-                OnSuccess = "ProduccioindeHoy"//La accion que va a ir la informacion que enviemos
+                OnSuccess = "ProducciondelDia"//La accion que va a ir la informacion que enviemos
             }))
             {
                 @Html.Hidden("Titulo")
@@ -172,6 +172,7 @@
             document.getElementById("EstadoFacturacion").value = data.EstadoFacturacion;
             document.getElementById("Proveedor").value = data.Proveedor;
             document.getElementById("Despachado").value = data.Despachado;
+            document.getElementById("FechaProduccion").value = data.FechaProduccion;
             document.getElementById("Cantidad").value = data.Cantidad;
             document.getElementById("PrecioVenta").value = data.PrecioVenta;
             document.getElementById("FechaProduccion").value = data.FechaProduccion;
@@ -180,16 +181,13 @@
         document.getElementById("Titulo").value = idprod;
     }
 
-    function ProduccioindeHoy(res)
-    {
-        if (res == "1" || res == "2")
-        {
+    function ProducciondelDia(res) {
+        if (res == "0" || res == "1" || res == "2") {
             $("#frmsearch").trigger("submit");
             document.getElementById("btnclose").click();
             alert("Se guardaron los datos correctamente");
         }
-        else
-        {
+        else {
             alert("Ha ocurrido un error, verifique que los datos esten correctos...");
         }
     }

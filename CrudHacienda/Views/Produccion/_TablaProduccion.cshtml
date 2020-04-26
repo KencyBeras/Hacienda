@@ -37,71 +37,71 @@
         </th>
     </tr>
 
-@foreach (var item in Model)
-{
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.IdProduccion)
-        </td>
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdProduccion)
+            </td>
 
-        <td>
-            @Html.DisplayFor(modelItem => item.Fecha)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Producto)
-        </td>
-        <td class=" text-center">
-            @*@Html.DisplayFor(modelItem => item.Turno)*@
-            @{
-                if (item.Turno == "Madrugada")
-                {
-                    <span class="label label-default">Matutino</span>
+            <td>
+                @Html.DisplayFor(modelItem => item.Fecha)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto)
+            </td>
+            <td class=" text-center">
+                @*@Html.DisplayFor(modelItem => item.Turno)*@
+                @{
+                    if (item.Turno == "Madrugada")
+                    {
+                        <span class="label label-default">Matutino</span>
+
+                    }
+                    else
+                    {
+
+                        <span class="label label-info">Vespertino</span>
+
+                    }
 
                 }
-                else
-                {
-
-                    <span class="label label-info">Vespertino</span>
-
+            </td>
+            <td>
+                <!--Condicion para sustituir M o m -> Masculino-->
+                @{ if (item.EstadoFacturacion == 1)
+                    {
+                        <span class="label label-warning">Credito</span>
+                    }
+                    <!--Condicion para sustituir F o f -> Femenino-->
+                    if (item.EstadoFacturacion == 2)
+                    {
+                        <span class="label label-success">Contado</span>
+                    }
+                    //Fin de la condicion
                 }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AProveedor)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.ElEmpleado)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.UndsDespachadas)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.PrecioVenta)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.TotalVenta)
+            </td>
 
-            }
-        </td>
-        <td>
-            <!--Condicion para sustituir M o m -> Masculino-->
-            @{ if (item.EstadoFacturacion == 1)
-                {
-                    <span class="label label-warning">Credito</span>
-                }
-                <!--Condicion para sustituir F o f -> Femenino-->
-                if (item.EstadoFacturacion == 2)
-                {
-                    <span class="label label-success">Contado</span>
-                }
-                //Fin de la condicion
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.AProveedor)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.ElEmpleado)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.UndsDespachadas)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.PrecioVenta)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.TotalVenta)
-        </td>
-
-        <td>
-            <button type="button" onclick="Editar(@item.IdProduccion)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal"> </button>
-            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
-        </td>
-    </tr>
-}
+            <td>
+                <button type="button" onclick="Editar(@item.IdProduccion)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#exampleModal"> </button>
+                @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ })
+            </td>
+        </tr>
+    }
 
 </table>

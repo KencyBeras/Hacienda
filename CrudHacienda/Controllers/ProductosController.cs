@@ -273,7 +273,7 @@ namespace CrudHacienda.Controllers
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 respuesta = "";
                 //En caso que ocurra un error en mi try lo atrapo en la variable respuesta
