@@ -2,6 +2,7 @@
 
 @{
     ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
     List<SelectListItem> ListaPuestos = (List<SelectListItem>)ViewBag.ListaPuestos;
     List<SelectListItem> ListaEstado = (List<SelectListItem>)ViewBag.ListaEstado;
 }
@@ -18,8 +19,10 @@
     <div class="row">
         <!--Header-->
         <div class="col-sm-6 form-group">
-            <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#EmpleadosModal">Nuevo Empleado</button>
-        </div>
+            <button type="button" onclick="Agregar()" class="btn btn-primary" data-toggle="modal" data-target="#EmpleadosModal">Agregar Empleado</button>
+            <!--Boton agregar lanza el modal para agrgar-->
+        </div>       
+
         <div class="col-sm-6 form-group">
             @Html.TextBox("Busqueda", null, new { @class = "form-control col-md-12", @placeholder = "Ingrese su busqueda aqui..." })
         </div>
@@ -51,14 +54,15 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">EMPLEADOS</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Add Or Edit</h5>
             </div>
+
             @using (Ajax.BeginForm("AgregarEmpleados", "Empleados", null, new AjaxOptions
             {
                 HttpMethod = "POST",
-                OnSuccess = "AgregarEmpleados",
                 UpdateTargetId = "Diverror",
-                InsertionMode = InsertionMode.Replace
+                InsertionMode = InsertionMode.Replace,
+                OnSuccess = "AgregarEmpleados"
             }))
             {
                 @Html.Hidden("Titulo")
@@ -66,16 +70,16 @@
                 <div class="modal-body">
 
                     <div class="form-group">
-                        @Html.TextBox("Cedula", null, new { @class = "form-control", placeholder = "Numero Documento" })
+                        @Html.TextBox("Cedula", null, new { @class = "form-control", @placeholder = "Numero Documento" })
                     </div>
 
                     <div class=" row form-group">
                         <div class=" col-md-12 col-lg-6">
-                            @Html.TextBox("Nombre", null, new { @class = "form-control", placeholder = "Nombre" })
+                            @Html.TextBox("Nombre", null, new { @class = "form-control", @placeholder = "Nombre" })
                         </div>
 
                         <div class="col-md-12 col-lg-6">
-                            @Html.TextBox("Apellidos", null, new { @class = "form-control", placeholder = "Apellidos" })
+                            @Html.TextBox("Apellidos", null, new { @class = "form-control", @placeholder = "Apellidos" })
                         </div>
                     </div>
 
@@ -88,18 +92,17 @@
                     </div>
 
                     <div class="row form-group">
-
                         <div class="col-lg-6">
-                            @Html.TextBox("Telefono", null, new { @class = "form-control", placeholder = "(809/829)-999-9999" })
+                            @Html.TextBox("Telefono", null, new { @class = "form-control", @placeholder = "(809/829)-999-9999" })
                         </div>
 
                         <div class="col-lg-6">
-                            @Html.TextBox("Email", null, new { @class = "form-control", placeholder = "Email/Correo" })
+                            @Html.TextBox("Email", null, new { @class = "form-control", @placeholder = "Email/Correo" })
                         </div>
                     </div>
 
                     <div class="form-group">
-                        @Html.TextBox("Direccion", null, new { @class = "form-control", placeholder = "Direccion: Ej. No.Domicilio, Sector/Barrio, Municipio, Provincia/Ciudad, Pais." })
+                        @Html.TextBox("Direccion", null, new { @class = "form-control", @placeholder = "Direccion: Ej. No.Domicilio, Sector/Barrio, Municipio, Provincia/Ciudad, Pais." })
                     </div>
 
                     <div class="form-group">
@@ -109,90 +112,22 @@
                     <div class="form-group">
                         @Html.DropDownList("Estado", ListaEstado, new { @class = "form-control" })
                     </div>
+
                 </div>
 
                 <div class="modal-footer">
                     <button type="button" id="btnclose" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Enviar</button>
+                    <button type="submit" class="btn btn-primary">Save Changes</button>
                 </div>
 
-                <div id="Diverror">
-                    <!--Se veran los Errores geerados-->
-                </div>
             }
+
+            <div id="Diverror"> </div><!--Se veran los Errores generados-->
         </div>
     </div>
 </div>
 <!--End Modal-->
 
-<script>
-    function Limpiar() {
-        var controles = document.getElementsByClassName("form-control");
-        var control;
-        for (var i = 0; i < controles.length; i++) {
-            control = controles[i];//forma1
-            control.value = "";
-        }
-    }
-
-    var frmsearch = document.getElementById("frmsearch");
-    var Busqueda = document.getElementById("Busqueda");
-    Busqueda.onkeyup = function () {
-        $("#frmsearch").trigger("submit");
-
-    }
-
-    function Agregar() {
-        Limpiar();
-        document.getElementById("Diverror").innerHTML = "";
-        document.getElementById("Titulo").value = -1;
-    }
-
-    function AgregarEmpleados(res) {
-        if (res == "1" || res == "0") {
-            $("#frmsearch").trigger("submit");
-            alert("Se guardaron los datos correctamente...");
-            document.getElementById("btnclose").click();
-        }
-        else {
-            alert("Ocurrio un error, verifique que los datos sean correctos...");
-
-        }
-    }
-
-    function Editar(IdEmp) {
-        /*Al momento de hacer click en editar se le asigna el idEmpleado a la variable Titulo*/
-        Limpiar();
-        document.getElementById("Diverror").innerHTML = "";
-        $.get("Empleados/RecuperarEmpleados/?idempleado=" + IdEmp, function (data) {
-            document.getElementById("Cedula").value = data.Cedula;
-            document.getElementById("Nombre").value = data.Nombre;
-            document.getElementById("Apellidos").value = data.Apellidos;
-            document.getElementById("Sexo").value = data.Sexo;
-            document.getElementById("Telefono").value = data.Telefono;
-            document.getElementById("Email").value = data.Email;
-            document.getElementById("Direccion").value = data.Direccion;
-            document.getElementById("Puesto").value = data.Puesto;
-            document.getElementById("FechaEntrada").value = data.FechaEntrada;
-            document.getElementById("Estado").value = data.Estado;
-        })
-
-        document.getElementById("Titulo").value = IdEmp;
-    }
-
-    function LlamarModal(IdEmpl) {
-        document.getElementById("Titulo").value = IdEmpl;
-        //Asigna el valor recibido en (IdEmpl) a la variable Titulo
-    }
-
-    function EliminarRegistro() {
-        var Nid = document.getElementById("Titulo").value;
-        $.get("Empleados/EliminarEmpleado/?IdEmpleado=" + Nid, function (data) {
-            if (data == "1") {
-                alert("Se ejecuto la ccion de manera exitosa!");
-                $("#frmsearch").trigger("submit");
-                document.getElementById("btnCerrarConf").click();
-            }
-        })
-    }
+<script src="~/Scripts/ScriptsViews/Empleados.js">
+    /*Ajax script*/
 </script>

@@ -51,6 +51,7 @@ namespace CrudHacienda.Controllers
             ListarComboEstado();
             ListarComboPuesto();
             List<EmpleadosCLS> ListaEmpleados = new List<EmpleadosCLS>();
+            //GetEmpleados();
             using (var db = new MyonexionEntities())
             {
                 ListaEmpleados = (from Emp in db.Empleados
@@ -145,7 +146,6 @@ namespace CrudHacienda.Controllers
             string respuesta = "";
             try
             {
-
                 if (!ModelState.IsValid)
                 {
                     var query = (from state in ModelState.Values
@@ -163,7 +163,7 @@ namespace CrudHacienda.Controllers
                 {
                     using (var db = new MyonexionEntities())
                     {
-                        if (Titulo == -1)
+                        if (Titulo.Equals(-1))
                         {
                             Empleados emp = new Empleados();
                             emp.Nombre = empcls.Nombre;
@@ -207,6 +207,7 @@ namespace CrudHacienda.Controllers
 
             return respuesta;
         }
+
         /*Recuperar empleados*/
         public JsonResult RecuperarEmpleados(int idempleado)
         {
@@ -249,5 +250,6 @@ namespace CrudHacienda.Controllers
             }
             return respuesta;
         }
+
     }
 }

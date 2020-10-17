@@ -1,6 +1,6 @@
 ﻿body {
     padding-top: 50px;
-    padding-bottom: 20px;
+    padding-bottom: 0px;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -23,10 +23,4 @@
     background-position: center; 
     background-repeat: no-repeat; 
     background-size: cover;
-}
-
-
-.bgper {
-    background-color: #000000;
-
 }

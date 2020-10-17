@@ -1,61 +1,61 @@
 ﻿@model List<CrudHacienda.Models.ProductosCLS>
-<div class="form-group">
-    <table class="table">
-        <tr>
-            <th>
-                <span>ID</span>
-            </th>
-            <th>
-                <span>Producto</span>
-            </th>
-            <th>
-                <span>Descripcion</span>
-            </th>
-            <th>
-                <span>Estado</span>
-            </th>
-            <th>
-                <span>Fecha Actualizacion</span>
-            </th>
-            <th>
-                <span>Accion</span>
-            </th>
-        </tr>
 
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>
-                    @Html.DisplayFor(modelItem => item.IdProducto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Producto)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.Descripcion)
-                </td>
-                <td>
-                    <!--Condicion para sustituir M o m -> Masculino-->
-                    @{ if (item.Estado == 0)
-                        {
-                            <span>Inactivo</span>
-                        }
-                        <!--Condicion para sustituir F o f -> Femenino-->
-                        if (item.Estado == 1)
-                        {
-                            <span>Activo</span>
-                        }
-                        //Fin de la condicion
+
+<table class="table table-striped table-condensed">
+    <tr>
+        <th>
+            <span>ID</span>
+        </th>
+        <th>
+            <span>Producto</span>
+        </th>
+        <th>
+            <span>Descripcion</span>
+        </th>
+        <th>
+            <span>Estado</span>
+        </th>
+        <th>
+            <span>Fecha Actualizacion</span>
+        </th>
+        <th>
+            <span>Accion</span>
+        </th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.IdProducto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Producto)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Descripcion)
+            </td>
+            <td>
+                <!--Condicion para sustituir M o m -> Masculino-->
+                @{ if (item.Estado == 0)
+                    {
+                        <span>Inactivo</span>
                     }
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.FechaActualizacion)
-                </td>
-                <td>
-                    <button type="button" onclick="Editar(@item.IdProducto)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#ProductosModal"> </button>
-                    <button type="button" onclick="LanzarModalEliminar(@item.IdProducto)" class="btn btn-danger btn-xs glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalELiminar"> </button>
-                </td>
-            </tr>
-        }
-    </table>
-</div>
+                    <!--Condicion para sustituir F o f -> Femenino-->
+                    if (item.Estado == 1)
+                    {
+                        <span>Activo</span>
+                    }
+                    //Fin de la condicion
+                }
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FechaActualizacion)
+            </td>
+            <td>
+                <button type="button" onclick="Editar(@item.IdProducto)" class="btn btn-info btn-xs glyphicon glyphicon-edit" data-toggle="modal" data-target="#ProductosModal"> </button>
+                <button type="button" onclick="LanzarModalEliminar(@item.IdProducto)" class="btn btn-danger btn-xs glyphicon glyphicon-trash" data-toggle="modal" data-target="#ModalELiminar"> </button>
+            </td>
+        </tr>
+    }
+</table>

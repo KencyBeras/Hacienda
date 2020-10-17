@@ -72,7 +72,6 @@ C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Debug\CrudHacien
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Debug\CrudHacienda.csproj.CopyComplete
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Debug\CrudHacienda.dll
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\obj\Debug\CrudHacienda.pdb
-C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\itextsharp.dll
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\roslyn\Microsoft.Win32.Primitives.dll
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\roslyn\System.Diagnostics.DiagnosticSource.dll
 C:\Users\Kency Beras\source\repos\CrudHacienda\CrudHacienda\bin\roslyn\System.Globalization.Calendars.dll

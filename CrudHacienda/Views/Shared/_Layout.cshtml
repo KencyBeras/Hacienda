@@ -8,9 +8,8 @@
     <title>@ViewBag.Title | Hacienda</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-    <link href="~/Content/Site.css" rel="stylesheet" />
 </head>
-<body >
+<body>
     <div class="navbar navbar-inverse navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
@@ -46,27 +45,47 @@
         <!--footer-->
         <div class="bgper">
             <div class="container-fluid">
-                <div class="row">
+                <div class="row container">
+
+                    <div class="col-md-4">
+                        <h4>Hacieda MB</h4>
+                        <img src="~/Content/img/vaca.png" alt="Smiley face" height="42" width="42">
+                    </div>
+
                     <div class="col-md-4 center-block">
-                        <img src="~/Content/img/BlackCow.png" alt="Smiley face" height="42" width="42">
+
+                    </div>
+
+                    <div class="col-md-4 ">
+                        <h4>Reportar Insidencias</h4>
+                        <span>18092345678</span><br />
+                        <span><a href="mailto:info@example.com">info@example.com</a> </span>
                     </div>
                 </div>
 
-             <p class="text-center">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                <div>
+                    <p class="text-center">&copy; @DateTime.Now.Year - My ASP.NET Application</p>
+                </div>
+
 
             </div>
         </div>
 
         <style>
-            .test
-            {
-                min-height:550px;
+            .test {
+                min-height: 920px;
+                padding-bottom: 0px;
             }
 
             .bgper {
-                background-color: #34495E;
+                background-color: black;
                 color: white;
-                bottom: 0;
+                padding-bottom: 0px;
+                padding-top: 12px;
+            }
+
+            body {
+                padding-bottom: 0px;
             }
         </style>
     </div>
@@ -74,7 +93,7 @@
     <script src="~/Scripts/jquery-3.3.1.min.js"></script>
     <script src="~/Scripts/jquery.unobtrusive-ajax.js"></script>
     <script src="~/Scripts/bootstrap.js"></script>
-    <link href="~/Content/Site.css" rel="stylesheet" />
+    <script src="~/Scripts/notify.min.js"></script>
 
 </body>
 </html>

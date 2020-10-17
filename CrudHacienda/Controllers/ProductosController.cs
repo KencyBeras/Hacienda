@@ -297,6 +297,7 @@ namespace CrudHacienda.Controllers
             return Json(pcls, JsonRequestBehavior.AllowGet);
             //Retornamos un json con los datos obtenidos
         }
+
         /*Eliminar productos*/
         public int EliminarRegistro(int idproducto)
         {//Recibimos el idproducto a eliminar
